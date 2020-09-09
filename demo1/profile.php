@@ -15,8 +15,6 @@ $action = isset($_POST['action']) ? $in['action'] : $_GET['action'];
 
 $CLASS         =  new Users($_SESSION['USER_ID']);
 
-
-
 $ROWS_USERS_TYPES = $CLASS->select()->from('users_types')->execute();
 $ROWS_CITIES = $CLASS->select()->from('cities')->execute();
 $ROWS_STATUS = $CLASS->select()->from('status')->where('class','=',1)->execute();
