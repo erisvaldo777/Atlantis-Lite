@@ -10,10 +10,10 @@ if($subdominio != 'dev'){
 define('USER', 'root');
 define('PASS', '034479');
 define('DBSA', 'webdelivery');*/
-define('HOST', $_SESSION['HOST']);
-define('USER', $_SESSION['USER']);
-define('PASS', $_SESSION['PASS']);
-define('DBSA', $_SESSION['DBSA']);   
+define('HOST', 'mysql.mazullo.com.br');
+define('USER', 'mazullo');
+define('PASS', 'metal.777');
+define('DBSA', 'mazullo');   
 }else{
 /*define('HOST', 'mysql.webdelivery.online');
 define('USER', 'webdelivery');
