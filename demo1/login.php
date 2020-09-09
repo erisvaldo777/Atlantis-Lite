@@ -79,11 +79,11 @@ if(!empty($_POST)){
 
 											<div class="form-group col-md-12">
 												<label>Email</label>
-												<input type="text" class="form-control" <?= $CLASS->valueN("email");?>" >
+												<input type="text" class="form-control" value="erisvaldo.araujo@hotmail.com" name="email">
 											</div>                            
 											<div class="form-group col-md-12">
 												<label>Senha</label>
-												<input type="password" class="form-control" <?= $CLASS->valueN("password");?>" >
+												<input type="password" class="form-control" value="1" name="password" >
 											</div>                            
 											
 											<div class="row" style="display:<?= $error!=''?'block':'none'; ?>">
