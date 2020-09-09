@@ -1,0 +1,34 @@
+RewriteEngine On
+<IfModule mod_headers.c>
+    <FilesMatch "\.(ico|gif|jpg|jpeg|png)$">
+          Header set Cache-Control "max-age=31536000"
+    </FilesMatch>
+    <FilesMatch "\.(css|js)$">
+          Header set Cache-Control "max-age=31536000"
+    </FilesMatch>
+</IfModule>
+RewriteCond %{SCRIPT_FILENAME} !-f
+RewriteCond %{SCRIPT_FILENAME} !-d
+
+
+RewriteRule ^public/login$ /demo1/login.php?section=$2&page=&action=create [L]
+RewriteRule ^public/register/create$ /demo1/register.php?section=$2&page=&action=create [L]
+RewriteRule ^public/register/waiting$ /demo1/waiting.php?section=$2&page=&action=create [L]
+
+RewriteRule ^admin/([a-z,0-9,A-Z,_=]+)/([a-z,0-9,A-Z,_=]+)/subscriptions/([0-9]+)/([a-z,A-Z,_=]+)$ /demo1/classes-subscriptions.php?location=$2&path=$1&action=$4&class_id=$3 [L]
+RewriteRule ^admin/([a-z,0-9,A-Z,_=]+)/([a-z,0-9,A-Z,_=]+)/subscriptions/([0-9]+)/([a-z,A-Z,_=]+)/([0-9]+)$ /demo1/classes-subscriptions.php?location=$2&path=$1&action=$4&class_id=$3&id=$5 [L]
+RewriteRule ^admin/([a-z,0-9,A-Z,_=]+)/([a-z,0-9,A-Z,_=]+)/([a-z,0-9,A-Z,_=]+)/([0-9]+)$ /demo1/$2.php?location=$2&path=$1&action=$3&id=$4 [L]
+RewriteRule ^admin/([a-z,0-9,A-Z,_=]+)/([a-z,0-9,A-Z,_=]+)/([a-z,0-9,A-Z,_=]+)$ /demo1/$2.php?location=$2&path=$1&action=$3 [L]
+
+RewriteRule ^admin/([a-z,0-9,A-Z,_=]+)/show$ /demo1/$1.php?location=$2&path=$1&action=show [L]
+
+
+
+
+RewriteRule ^admin/generate$ /admin/generate.php?empresa=$1 [L]
+
+RewriteRule ^([a-zA-Z0-9_-]+)$ /clients/welcome.php?empresa=$1 [L]
+
+RewriteRule ^([a-zA-Z0-9_-]+)/cardapio$ /clients/teste.php?empresa=$1 [L]
+RewriteRule ^([a-zA-Z0-9_-]+)/mesa/([a-z,0-9,A-Z,_=]+)$ /qrcode/mesa.php?location=$2&path=$1 [L]
+RewriteRule ^([a-zA-Z0-9_-]+)/garcom/([a-z,0-9,A-Z,_=]+)$ /qrcode/garcom.php?location=$2&path=$1 [L]
