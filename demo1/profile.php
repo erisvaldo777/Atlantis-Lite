@@ -13,17 +13,18 @@ $in       =  ${'_'.$method};
 
 $action = isset($_POST['action']) ? $in['action'] : $_GET['action'];
 
-$CLASS         =  new Users($_SESSION['CLIENT_ID']);
+$CLASS         =  new Users($_SESSION['USER_ID']);
 
 
 
 $ROWS_USERS_TYPES = $CLASS->select()->from('users_types')->execute();
 $ROWS_CITIES = $CLASS->select()->from('cities')->execute();
 $ROWS_STATUS = $CLASS->select()->from('status')->where('class','=',1)->execute();
-
+$CLASS->table = 'users';
 if($method=='GET' && $action == 'update'  || $action == 'show'){         
-	$ROWS = $CLASS->select()->limit('1')->execute()[0];    
-	$CLASS->setData($ROWS);
+	$ROWS = $CLASS->select()->where('user_id','=',$_SESSION['USER_ID'])->limit('1')->execute();    
+	if($CLASS->rowCount() > 0)
+	$CLASS->setData($ROWS[0]);
 
 }else if($action == 'list'){    
 	$ROWS = $CLASS->select()
@@ -38,13 +39,11 @@ if($method=='GET' && $action == 'update'  || $action == 'show'){
 	if(isset($in)){
 
 		$CLASS->setData($in);
-		$CLASS->table = 'users';
-
-
+		
 		if($action == 'create')
 			$return = $CLASS->insert()->execute();
 		if($action == 'update' || $action == 'show')
-			$return = $CLASS->update()->where('user_id','=',$_GET['id'])->execute();        
+			$return = $CLASS->update()->where('user_id','=',$_SESSION['USER_ID'])->execute();        
 		if($action == 'delete')
 			$return = $CLASS->delete($_GET['user_id']);  
 

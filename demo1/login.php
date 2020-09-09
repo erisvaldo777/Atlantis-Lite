@@ -23,7 +23,7 @@ if(!empty($_POST)){
 	if($ROWS[0]['user_status_id'] == 11)
 		echo 'Usuário pendente de autorização';
 	if($ROWS[0]['user_status_id'] == 12){
-		$_SESSION['USER_ID']	= 1;
+		$_SESSION['USER_ID']	= $ROWS[0]['user_id'];
 		$_SESSION['user_name']	= $ROWS[0]['user_name'];
 		header('location:../admin/profile/show');
 		exit;
@@ -60,8 +60,8 @@ if(!empty($_POST)){
 	<link rel="stylesheet" href="/cdn/css/demo.css">
 </head>
 <body>
-	<div class="wrapper sidebar_minimize">
-		<main class="content" style="max-width: 700px">
+	<div class="wrapper sidebar_minimize" style="height: 100vh">
+		<main class="content" style="max-width: 700px; top: 50%; margin: -150px -350px -150px -350px; left: 50%;position: absolute; ">
 			<div class="container-fluid p-0">
 				<!-- CONTENT -->
 
@@ -93,7 +93,7 @@ if(!empty($_POST)){
 											</div>
 											<div class="row">
 												<div class="col-md-12">												
-													<button class="btn btn-primary" type="submit"><i class="fa fa-save"></i> Entrar</button>
+													<button class="btn btn-primary" style="float: right !important; right:0 !important" type="submit"><i class="fa fa-save"></i> Entrar</button>
 												</div>
 											</div>
 										</form>
