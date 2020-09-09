@@ -12,7 +12,7 @@ define('PASS', '034479');
 define('DBSA', 'webdelivery');*/
 define('HOST', 'mysql.mazullo.com.br');
 define('USER', 'mazullo');
-define('PASS', 'metal.777');
+define('PASS', 'Metal777');
 define('DBSA', 'mazullo');   
 }else{
 /*define('HOST', 'mysql.webdelivery.online');
