@@ -57,21 +57,21 @@ if(!empty($_POST)){
 	<link rel="stylesheet" href="/cdn/css/bootstrap.min.css">
 	<link rel="stylesheet" href="/cdn/css/atlantis.min.css">
 	<!-- CSS Just for demo purpose, don't include it in your project -->
-	<link rel="stylesheet" href="/cdn/css/demo.css">
+	
 </head>
 <body>
 	<div class="wrapper sidebar_minimize" style="height: 100vh">
-		<main class="content" style="max-width: 700px; top: 50%; margin: -150px -350px -150px -350px; left: 50%;position: absolute; ">
-			<div class="container-fluid p-0">
+		<main class="content" >
+			<div class="container-fluid p-0" style="padding: 10px">
 				<!-- CONTENT -->
 
 
 
-				<div class="row">
+				<div class="row" style="max-width: 320px !important; top: 50%; margin: -150px -160px -150px -160px; left: 50%;position: absolute; ">
 					<!--=================================| EDIT |=================================-->                    
 
 					<?php  if($_GET['action'] == 'update' || $_GET['action'] == 'create'){?>
-						<div class="col-md-12">
+						<div class="col-md-8">
 							<div class="card">
 								<div class="card-body">
 									<form method="post">
