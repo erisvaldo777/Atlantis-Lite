@@ -11,7 +11,7 @@ $return   = '';
 $method   =  $_SERVER['REQUEST_METHOD'];
 $in       =  ${'_'.$method};
 
-$action = isset($_POST['action']) ? $in['action'] : $_GET['action'];
+echo $action = isset($_POST['action']) ? $in['action'] : $_GET['action'];
 
 $CLASS         =  new Users($_SESSION['USER_ID']);
 
@@ -19,11 +19,11 @@ $ROWS_USERS_TYPES = $CLASS->select()->from('users_types')->execute();
 $ROWS_CITIES = $CLASS->select()->from('cities')->execute();
 $ROWS_STATUS = $CLASS->select()->from('status')->where('class','=',1)->execute();
 $CLASS->table = 'users';
-if($method=='GET' && $action == 'update'  || $action == 'show'){         
+if($method=='GET' && ($action == 'update'  || $action == 'show')){
 	$ROWS = $CLASS->select()->where('user_id','=',$_SESSION['USER_ID'])->limit('1')->execute();    
 	if($CLASS->rowCount() > 0)
 	$CLASS->setData($ROWS[0]);
-
+echo '----------------';
 }else if($action == 'list'){    
 	$ROWS = $CLASS->select()
 	->leftJoin('users_types','UB.user_type_id')
@@ -33,20 +33,22 @@ if($method=='GET' && $action == 'update'  || $action == 'show'){
 }else if($action == 'create' && $method == 'GET'){
 	$ROWS = [];        
 }else{
-
+echo 'lkjlçkjlçjlçjklç';
 	if(isset($in)){
 
 		$CLASS->setData($in);
 		
 		if($action == 'create')
 			$return = $CLASS->insert()->execute();
-		if($action == 'update' || $action == 'show')
+		if($action == 'update' || $action == 'show'){
 			$return = $CLASS->update()->where('user_id','=',$_SESSION['USER_ID'])->execute();        
+		echo 'user_id'.'='.$_SESSION['USER_ID'];
+		}
 		if($action == 'delete')
 			$return = $CLASS->delete($_GET['user_id']);  
 
 		if($return > 0 || $return == 'updated' || $return == 'deleted'){
-			header('location:///users/list');
+			header('location:/admin/principal/profile/show');
 			exit;
 		};
 
