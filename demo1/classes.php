@@ -225,6 +225,7 @@ require_once("head.php"); ?>
                                                             <td class="text-right">
                                                                 <a href="<?= $v['class_id'];?>/update" class="btn btn-success btNewImage btn-sm"><i class="fa fa-edit"></i></a>
                                                                 <a href="../classes-subscriptions/<?= $v['class_id'];?>/list" class="btn btn-warning btNewImage btn-sm"><i class="fa fa-edit"></i></a>
+                                                                <a href="/admin/reports/subscriptions/<?= $v['class_id'];?>/list" target="_blank" class="btn btn-info btNewImage btn-sm"><i class="fa fa-th-list"></i></a>
                                                                 <button class="btn btn-danger btn-sm" data-row="<? $k;?>" data-column_name="<?= $v["class_name"]; ?>" data-id="<?= $v["class_id"]; ?>" data-toggle="modal" data-target="#modal-confirm-delete" type="button"><i class="fa fa-trash"></i> </button>
                                                             </td>
                                                         </tr>

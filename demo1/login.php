@@ -70,11 +70,11 @@ if(!empty($_POST)){
 
 
 
-				<div class="row" style="max-width: 320px !important; top: 50%; margin: -150px -160px -150px -160px; left: 50%;position: absolute; ">
+				<div class="row" style="max-width: 420px !important; top: 50%; margin: -150px -210px -150px -210px; left: 50%;position: absolute; ">
 					<!--=================================| EDIT |=================================-->                    
 
 					<?php  if($_GET['action'] == 'update' || $_GET['action'] == 'create'){?>
-						<div class="col-md-8">
+						<div class="col-md-12">
 							<div class="card">
 								<div class="card-body">
 									<form method="post">
@@ -94,10 +94,10 @@ if(!empty($_POST)){
 													<div class="alert alert-danger" style="padding: 15px"><b><?= $error; ?></b></div>
 												</div>
 											</div>
-											<div class="row">
-												<div class="col-md-12">												
+											<div class="form-group">
+																							
 													<button class="btn btn-primary" style="float: right !important; right:0 !important" type="submit"><i class="fa fa-save"></i> Entrar</button>
-												</div>
+												
 											</div>
 										</form>
 									</div>

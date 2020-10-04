@@ -15,8 +15,11 @@ RewriteRule ^public/login$ /demo1/login.php?section=$2&page=&action=create [L]
 RewriteRule ^public/register/create$ /demo1/register.php?section=$2&page=&action=create [L]
 RewriteRule ^public/register/waiting$ /demo1/waiting.php?section=$2&page=&action=create [L]
 RewriteRule ^admin/danied-access$ /demo1/danied-access.php?section=$2&page=&action=create [L]
-RewriteRule ^([a-z,0-9,A-Z,_=]+)/principal/([a-z,0-9,A-Z]+)/([a-z,0-9,A-Z]+)$ /demo1/$2.php?location=$2&path=$1&action=$3&id=$3&ref= [L]
-RewriteRule ^([a-z,0-9,A-Z,_=]+)/([a-z,0-9,A-Z,_-]+)/([a-z,0-9,A-Z]+)/([a-z,0-9,A-Z]+)$ /demo1/$2/$3.php?location=$2&path=$1&action=$4&id=$3&ref= [L]
+RewriteRule ^([a-z,0-9,A-Z,_=]+)/([a-z,0-9,A-Z]+)$ /demo1/$2.php [L]
+
+RewriteRule ^([a-z,0-9,A-Z,_=]+)/principal/([a-z,0-9,A-Z]+)/([a-z,0-9,A-Z]+)$ /demo1/$2.php?location=$2&path=$1&action=$3&id=$3[L]
+RewriteRule ^([a-z,0-9,A-Z,_=]+)/principal/([a-z,0-9,A-Z]+)/([0-9]+)/([a-z,0-9,A-Z]+)$ /demo1/$2.php?location=$2&path=$1&action=$4&id=$3 [L]
+RewriteRule ^([a-z,0-9,A-Z,_=]+)/([a-z,0-9,A-Z,_-]+)/([a-z,0-9,A-Z]+)/([0-9]+)/([a-z,0-9,A-Z]+)$ /demo1/$2/$3.php?location=$2&path=$1&action=$5&id=$4 [L]
 
 RewriteRule ^admin/([a-z,0-9,A-Z,_=]+)/([a-z,0-9,A-Z,_-]+)/([0-9]+)/([a-z,0-9,A-Z]+)$ /demo1/$2.php?location=$2&path=$1&action=$4&id=$3&ref= [L]
 RewriteRule ^admin/([a-z,0-9,A-Z,_=]+)/([a-z,0-9,A-Z,_-]+)/([0-9]+)/([0-9]+)/([a-zA-Z,_=]+)$ /demo1/$2.php?location=$2&path=$1&id=$3&ref=$4&action=$5 [L]
@@ -31,8 +34,3 @@ RewriteRule ^admin/([a-z,0-9,A-Z,_=]+)/show$ /demo1/$1.php?location=$2&path=$1&a
 
 RewriteRule ^admin/generate$ /admin/generate.php?empresa=$1 [L]
 
-RewriteRule ^([a-zA-Z0-9_-]+)$ /clients/welcome.php?empresa=$1 [L]
-
-RewriteRule ^([a-zA-Z0-9_-]+)/cardapio$ /clients/teste.php?empresa=$1 [L]
-RewriteRule ^([a-zA-Z0-9_-]+)/mesa/([a-z,0-9,A-Z,_=]+)$ /qrcode/mesa.php?location=$2&path=$1 [L]
-RewriteRule ^([a-zA-Z0-9_-]+)/garcom/([a-z,0-9,A-Z,_=]+)$ /qrcode/garcom.php?location=$2&path=$1 [L]

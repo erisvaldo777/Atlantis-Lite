@@ -187,20 +187,15 @@
 										<div class="user-box">
 											<div class="avatar-lg"><img src="/cdn/img/profile.jpg" alt="image profile" class="avatar-img rounded"></div>
 											<div class="u-text">
-												<h4>Hizrian</h4>
-												<p class="text-muted">hello@example.com</p><a href="profile.html" class="btn btn-xs btn-secondary btn-sm">View Profile</a>
+												<h4>Marcos Mazullo</h4>
+												<p class="text-muted">mazullo@universodl.com.br</p>
+												<a href="profile.html" class="btn btn-xs btn-secondary btn-sm">Minha conta</a>
 											</div>
 										</div>
 									</li>
-									<li>
+									<li>										
 										<div class="dropdown-divider"></div>
-										<a class="dropdown-item" href="#">My Profile</a>
-										<a class="dropdown-item" href="#">My Balance</a>
-										<a class="dropdown-item" href="#">Inbox</a>
-										<div class="dropdown-divider"></div>
-										<a class="dropdown-item" href="#">Account Setting</a>
-										<div class="dropdown-divider"></div>
-										<a class="dropdown-item" href="#">Logout</a>
+										<a class="dropdown-item" href="/admin/logout">Saird</a>
 									</li>
 								</div>
 							</ul>

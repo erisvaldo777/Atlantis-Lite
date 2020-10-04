@@ -87,11 +87,11 @@
 											<span class="sub-item">Clientes</span>
 										</a>
 									</li>
-									<li>
+									<!-- <li>
 										<a href="components/panels.html">
 											<span class="sub-item">Panels</span>
 										</a>
-									</li>
+									</li> -->
 									<li>
 										<a href="/admin/principal/users/list">
 											<span class="sub-item">Usuários</span>

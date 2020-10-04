@@ -87,7 +87,13 @@ require_once("../head.php"); ?>
                                     <?php  if($_GET['action'] == 'list'){?>
 
                                         <!-- DIV SEPARADO DE OPTIONAL -->                
-
+<div class="row">   
+        <div class="col-md-12">
+        <label>Nome do curso: 321321321</label>
+        <span>Realização do curso:5465465465</span>
+        
+</div>
+</div>  
                                         <div class="col-md-12 d-flex">
                                             <table class="table table-hover my-0 mt-2">
                                                 <thead>
