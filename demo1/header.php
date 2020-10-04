@@ -3,7 +3,7 @@
 			<div class="logo-header" data-background-color="blue">
 				
 				<a href="index.html" class="logo">
-					<img src="/cdn/img/logo.svg" alt="navbar brand" class="navbar-brand">
+					<img src="/cdn/img/logo.png" alt="navbar brand" class="navbar-brand">
 				</a>
 				<button class="navbar-toggler sidenav-toggler ml-auto" type="button" data-toggle="collapse" data-target="collapse" aria-expanded="false" aria-label="Toggle navigation">
 					<span class="navbar-toggler-icon">
@@ -189,13 +189,13 @@
 											<div class="u-text">
 												<h4>Marcos Mazullo</h4>
 												<p class="text-muted">mazullo@universodl.com.br</p>
-												<a href="profile.html" class="btn btn-xs btn-secondary btn-sm">Minha conta</a>
+												<a href="/admin/principal/profile/show" class="btn btn-xs btn-secondary btn-sm">Minha conta</a>
 											</div>
 										</div>
 									</li>
 									<li>										
 										<div class="dropdown-divider"></div>
-										<a class="dropdown-item" href="/admin/logout">Saird</a>
+										<a class="dropdown-item" href="/admin/logout">Sair</a>
 									</li>
 								</div>
 							</ul>

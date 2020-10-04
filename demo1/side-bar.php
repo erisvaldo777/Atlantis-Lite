@@ -128,13 +128,13 @@
 							<div class="collapse" id="sidebarLayouts">
 								<ul class="nav nav-collapse">
 									<li>
-										<a href="/admin/reports/subscriptions/list" target="_blank">
+										<a href="/admin/principal/courses/list" target="_blank">
 											<span class="sub-item">Inscritos</span>
 										</a>
 									</li>
 									<li>
-										<a href="overlay-sidebar.html" target="_blank">
-											<span class="sub-item">Overlay Sidebar</span>
+										<a href="#" target="_blank">
+											<span class="sub-item">A implementar</span>
 										</a>
 									</li>
 									
@@ -144,7 +144,7 @@
 						
 						
 						<li class="mx-4 mt-2">
-							<a href="http://themekita.com/atlantis-bootstrap-dashboard.html" class="btn btn-primary btn-block"><span class="btn-label mr-2"> <i class="fa fa-heart"></i> </span>Avançado</a> 
+							<a href="#" class="btn btn-primary btn-block"><span class="btn-label mr-2"> <i class="fa fa-heart"></i> </span>Avançado</a> 
 						</li>
 					</ul>
 				</div>

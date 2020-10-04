@@ -67,6 +67,14 @@ if($method == 'POST' && ($action == 'show' || $action == 'update')){
 }
 
 require_once("../head.php"); ?>
+<style type="text/css">
+@media print {
+.no-print {
+  display: none; 
+}
+ }
+
+</style>
 <body>
     <div class="wrapper">
         <!-- HEADER -->
@@ -87,15 +95,15 @@ require_once("../head.php"); ?>
                                     <?php  if($_GET['action'] == 'list'){?>
 
                                         <!-- DIV SEPARADO DE OPTIONAL -->                
-<div class="row">   
-        <div class="col-md-12">
-        <label>Nome do curso: 321321321</label>
-        <span>Realização do curso:5465465465</span>
-        
-</div>
-</div>  
+                                        <div class="row">   
+                                            <div class="col-md-12">
+                                                <h2><b>Nome do curso:</b> Nome do curso</h2>
+                                                <h5><b>Data de realização:</b> 10/10/2020</h5>
+                                                <hr>
+                                            </div>
+                                        </div>  
                                         <div class="col-md-12 d-flex">
-                                            <table class="table table-hover my-0 mt-2">
+                                            <table class="table table-hover my-0">
                                                 <thead>
                                                     <tr>
                                                         <th>Cliente</th>
@@ -125,13 +133,10 @@ require_once("../head.php"); ?>
 
                                                 </div>
                                                 <div class="form-group">
-                                                    <button onclick="print()" class="btn btn-primary"><i class="fa fa-plus"></i> Imprimir</button>
-
+                                                    <button onclick="print()" class="btn btn-primary no-print"><i class="fa fa-plus"></i> Imprimir</button>
                                                 </div>
                                                 <!-- DIV SEPARADO DE OPTIONAL -->                    
                                             <?php } ?>
-
-
                                         </div>
                                     </div>
                                 </div>
