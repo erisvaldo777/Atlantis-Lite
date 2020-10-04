@@ -14,22 +14,25 @@ $action = isset($_POST['action']) ? $in['action'] : $_GET['action'];
 
 $CLASS         =  new Users();
 
-
 if(!empty($_POST)){ 
 	$ROWS = $CLASS->select()
 	->where('email','=',$_POST['email'])
 	->where('password','=',$_POST['password'])
-	->where('user_status_id','!=',0)->execute();
-	if($ROWS[0]['user_status_id'] == 11)
-		echo 'Usuário pendente de autorização';
-	if($ROWS[0]['user_status_id'] == 12){
-		$_SESSION['USER_ID']	= $ROWS[0]['user_id'];
-		$_SESSION['user_name']	= $ROWS[0]['user_name'];
+	->where('user_status_id','!=',0)->limit('1')->execute();
+	
+	if($ROWS[0]['user_status_id'] == 1){
+		$_SESSION['USER_ID']		= $ROWS[0]['user_id'];
+		$_SESSION['USER_TYPE_ID']	= $ROWS[0]['user_type_id'];
+		$_SESSION['USER_NAME']		= $ROWS[0]['user_name'];
 		header('location:../admin/profile/show');
 		exit;
 	}
-	if($ROWS[0]['user_status_id'] == 13)
-		echo 'Você não tem permissão ppara acessar o sistema nesse momento';
+
+	if($ROWS[0]['user_status_id'] == 3)
+		echo 'Usuário pendente de autorização';
+
+	if($ROWS[0]['user_status_id'] == 4)
+		echo 'Você não tem permissão para acessar o sistema nesse momento';
 	
 }
 

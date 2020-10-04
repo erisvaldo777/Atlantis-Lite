@@ -17,7 +17,7 @@ $action = isset($_POST['action']) ? $in['action'] : $_GET['action'];
 $CLASS         =  new Users($_SESSION['USER_ID']);
 
 
-//$RULES->check(100,$action,$CLASS);
+$RULES->check(100,$action,$CLASS);
 
 $ROWS_USERS_TYPES = $CLASS->select()->from('users_types')->execute();
 $ROWS_CITIES = $CLASS->select()->from('cities')->execute();
@@ -26,7 +26,7 @@ $ROWS_STATUS = $CLASS->select()->from('status')->where('class','=',1)->execute()
 $CLASS->table = 'users';
 
 if($method=='GET' && ($action == 'update'  || $action == 'show')){
-	$ROWS = $CLASS->select()->where('user_id','=',$_SESSION['USER_ID'])->limit('1')->execute();    
+	$ROWS = $CLASS->select()->where('user_id','=',$_GET['id'])->limit('1')->execute();    
 	if($CLASS->rowCount() > 0)
 	$CLASS->setData($ROWS[0]);
 
@@ -34,7 +34,8 @@ if($method=='GET' && ($action == 'update'  || $action == 'show')){
 	$ROWS = $CLASS->select()
 	->leftJoin('users_types','B.user_type_id')	
 	->leftJoin('status','C.status_id','user_status_id')
-	->execute(); 	
+	->order_by('user_name asc')
+	->execute();
 }else if($action == 'create' && $method == 'GET'){
 	$ROWS = [];        
 }else{
@@ -46,14 +47,14 @@ if($method=='GET' && ($action == 'update'  || $action == 'show')){
 		if($action == 'create')
 			$return = $CLASS->insert()->execute();
 		if($action == 'update' || $action == 'show'){
-			$return = $CLASS->update()->where('user_id','=',$_SESSION['USER_ID'])->execute();        
+			$return = $CLASS->update()->where('user_id','=',$_GET['id'])->execute();        
 
 		}
 		if($action == 'delete')
 			$return = $CLASS->delete($_GET['user_id']);  
 
 		if($return > 0 || $return == 'updated' || $return == 'deleted'){
-			header('location:/admin/principal/profile/show');
+			header('location:/admin/principal/users/list');
 			exit;
 		};
 
@@ -173,7 +174,7 @@ require_once("head.php"); ?>
 											</div>
 											<div class="row">
 												<div class="col-md-12">
-													<a class="btn btn-secondary" href="/admin/principal/profile/list"><i class="fa fa-reply"></i> Voltar</a>
+													<a class="btn btn-secondary" href="/admin/principal/users/list"><i class="fa fa-reply"></i> Voltar</a>
 													<button class="btn btn-primary" type="submit"><i class="fa fa-save"></i> Salvar</button>
 												</div>
 											</div>

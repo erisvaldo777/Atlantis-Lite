@@ -13,9 +13,7 @@ $in       =  ${'_'.$method};
 
 $action = isset($_POST['action']) ? $in['action'] : $_GET['action'];
 
-$CLASS         =  new Subscriptions($_SESSION['CLIENT_ID']);
-
-print_r($in);
+$CLASS         =  new Subscriptions($_SESSION['USER_ID']);
 
 $ROWS_CLIENTS = $CLASS->select()->from('clients')->where('client_status_id','=',1)->execute();
 $ROWS_CLASSES = $CLASS->select()->from('classes')->where('class_status_id','=',1)->execute();
@@ -24,7 +22,7 @@ $ROWS_STATUS = $CLASS->select()->from('status')->where('class','=',1)->execute()
 
 $CLASS->table = 'subscriptions';
 if($method=='GET' && $action == 'update' ){         
-    $ROWS = $CLASS->select()->where('subscription_id','=',$_GET["id"])->limit('1')->execute()[0];    
+    $ROWS = $CLASS->select()->where('subscription_id','=',$_GET["ref"])->limit('1')->execute()[0];    
     $CLASS->setData($ROWS);
 
 }else if($action == 'list'){    
@@ -34,29 +32,29 @@ if($method=='GET' && $action == 'update' ){
     ->leftJoin('users','E.user_id','created_user_id')
     ->leftJoin('status','F.status_id','subscription_status_id')
     ->where('subscription_status_id','!=',0)
-    ->where('class_id','=',$_GET['class_id'])->execute();    
+    ->where('class_id','=',$_GET['id'])->execute();    
 }else if($action == 'create' && $method == 'GET'){
     $ROWS = [];        
 }else{
 
     if(isset($in)){
-        
+
         if($action == 'create'){
             $in['dt_created_at'] = $CLASS->now();
-            $in['class_id'] = $_GET['class_id'];
+            $in['class_id'] = $_GET['ref'];
             $CLASS->setData($in);
             $return = $CLASS->insert()->execute();
             print_r($CLASS->getData($in));
         }
         if($action == 'update'){
             $CLASS->setData($in);
-            $return = $CLASS->update()->where('subscription_id','=',$_GET['id'])->execute();        
+            $return = $CLASS->update()->where('subscription_id','=',$_GET['ref'])->execute();        
         }
         if($action == 'delete')
             $return = $CLASS->delete($_GET['subscription_id']);  
 
         if($return > 0 || $return == 'updated' || $return == 'deleted'){
-            header("location:/admin/principal/classes/subscriptions/{$_GET['class_id']}/list");
+            header("location:/admin/principal/classes-subscriptions/{$_GET['id']}/list");
             exit;
         };
 
@@ -140,7 +138,7 @@ require_once("head.php"); ?>
                                                     <select class="form-control"  name="created_user_id" required>
                                                         <option value="">Selecione</option>
                                                         <?php foreach($ROWS_USERS as $k=>$v){?>
-                                                            <option <?= $CLASS->value_select("created_user_id",$v["user_id"]);?>><?= $v["user_name"];?></option>
+                                                            <option <?= $CLASS->value_select("created_user_id",$v["user_id"],$_SESSION['USER_ID']);?>><?= $v["user_name"];?></option>
                                                         <?php }?>
                                                     </select>
                                                 </div>
@@ -163,7 +161,7 @@ require_once("head.php"); ?>
                                             </div>
                                             <div class="row">
                                                 <div class="col-md-12">
-                                                    <a class="btn btn-secondary" href="/admin/principal/classes/subscriptions/<?= $_GET['class_id']; ?>/list"><i class="fa fa-reply"></i> Voltar</a>
+                                                    <a class="btn btn-secondary" href="/admin/principal/classes-subscriptions/<?= $_GET['id']; ?>/list"><i class="fa fa-reply"></i> Voltar</a>
                                                     <button class="btn btn-primary" type="submit"><i class="fa fa-save"></i> Salvar</button>
                                                 </div>
                                             </div>
@@ -197,7 +195,7 @@ require_once("head.php"); ?>
                                                             <td><?= $v['class_name'];?></td>
                                                             <td><?= $v['status_name'];?></td>
                                                             <td class="text-right">
-                                                                <a href="update/<?= $v['subscription_id'];?>" class="btn btn-sm btn-success btNewImage"><i class="fa fa-edit"></i></a>
+                                                                <a href="<?= $v['subscription_id'];?>/update" class="btn btn-sm btn-success btNewImage"><i class="fa fa-edit"></i></a>
                                                                 <button class="btn btn-sm btn-danger" data-row="<? $k;?>" data-column_name="<?= $v["client_id"]; ?>" data-id="<?= $v["subscription_id"]; ?>" data-toggle="modal" data-target="#modal-confirm-delete" type="button"><i class="fa fa-trash"></i> </button>
                                                             </td>
                                                         </tr>
@@ -212,8 +210,8 @@ require_once("head.php"); ?>
 
                                                 </div>
                                                 <div class="form-group">
+                                                    <a href="/admin/principal/classes/list" class="btn btn-secondary"><i class="fa fa-reply"></i> Voltar</a>
                                                     <a href="create" class="btn btn-primary"><i class="fa fa-plus"></i> Novo</a>
-
                                                 </div>
                                                 <!-- DIV SEPARADO DE OPTIONAL -->                    
                                             <?php } ?>

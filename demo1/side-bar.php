@@ -8,7 +8,7 @@
 						<div class="info">
 							<a data-toggle="collapse" href="#collapseExample" aria-expanded="true">
 								<span>
-									<?= explode(' ',$_SESSION['user_name'])[0]; ?>
+									<?= explode(' ',$_SESSION['USER_NAME'])[0]; ?>
 									<span class="user-level">Usuário</span>
 									<span class="caret"></span>
 								</span>
@@ -37,7 +37,7 @@
 						</div>
 					</div>
 					<ul class="nav nav-primary">
-						<li class="nav-item active">
+						<!-- <li class="nav-item active">
 							<a data-toggle="collapse" href="#dashboard" class="collapsed" aria-expanded="false">
 								<i class="fas fa-home"></i>
 								<p>Dashboard</p>
@@ -57,12 +57,12 @@
 									</li>
 								</ul>
 							</div>
-						</li>
+						</li> -->
 						<li class="nav-section">
 							<span class="sidebar-mini-icon">
 								<i class="fa fa-ellipsis-h"></i>
 							</span>
-							<h4 class="text-section">cadastro principal</h4>
+							<h4 class="text-section">principal</h4>
 						</li>
 						<li class="nav-item">
 							<a data-toggle="collapse" href="#base">
@@ -83,7 +83,7 @@
 										</a>
 									</li>
 									<li>
-										<a href="/admin/principal/clients/create">
+										<a href="/admin/principal/clients/list">
 											<span class="sub-item">Clientes</span>
 										</a>
 									</li>
@@ -92,10 +92,33 @@
 											<span class="sub-item">Panels</span>
 										</a>
 									</li>
+									<li>
+										<a href="/admin/principal/users/list">
+											<span class="sub-item">Usuários</span>
+										</a>
+									</li>
 									
 								</ul>
 							</div>
 						</li>
+						<!-- <li class="nav-item">
+							<a data-toggle="collapse" href="#admin">
+								<i class="fas fa-layer-group"></i>
+								<p>Administração</p>
+								<span class="caret"></span>
+							</a>
+							<div class="collapse" id="admin">
+								<ul class="nav nav-collapse">
+									<li>
+										<a href="/admin/principal/rules/list">
+											<span class="sub-item">Permissões</span>
+										</a>
+									</li>
+									
+									
+								</ul>
+							</div>
+						</li> -->
 						<li class="nav-item">
 							<a data-toggle="collapse" href="#sidebarLayouts">
 								<i class="fas fa-th-list"></i>
@@ -105,12 +128,12 @@
 							<div class="collapse" id="sidebarLayouts">
 								<ul class="nav nav-collapse">
 									<li>
-										<a href="/admin/report/subscriptions/list">
-											<span class="sub-item">Clientes por curso</span>
+										<a href="/admin/reports/subscriptions/list" target="_blank">
+											<span class="sub-item">Inscritos</span>
 										</a>
 									</li>
 									<li>
-										<a href="overlay-sidebar.html">
+										<a href="overlay-sidebar.html" target="_blank">
 											<span class="sub-item">Overlay Sidebar</span>
 										</a>
 									</li>

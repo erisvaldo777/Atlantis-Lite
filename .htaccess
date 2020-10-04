@@ -14,10 +14,14 @@ RewriteCond %{SCRIPT_FILENAME} !-d
 RewriteRule ^public/login$ /demo1/login.php?section=$2&page=&action=create [L]
 RewriteRule ^public/register/create$ /demo1/register.php?section=$2&page=&action=create [L]
 RewriteRule ^public/register/waiting$ /demo1/waiting.php?section=$2&page=&action=create [L]
+RewriteRule ^admin/danied-access$ /demo1/danied-access.php?section=$2&page=&action=create [L]
+RewriteRule ^([a-z,0-9,A-Z,_=]+)/principal/([a-z,0-9,A-Z]+)/([a-z,0-9,A-Z]+)$ /demo1/$2.php?location=$2&path=$1&action=$3&id=$3&ref= [L]
+RewriteRule ^([a-z,0-9,A-Z,_=]+)/([a-z,0-9,A-Z,_-]+)/([a-z,0-9,A-Z]+)/([a-z,0-9,A-Z]+)$ /demo1/$2/$3.php?location=$2&path=$1&action=$4&id=$3&ref= [L]
 
-RewriteRule ^admin/([a-z,0-9,A-Z,_=]+)/([a-z,0-9,A-Z,_=]+)/subscriptions/([0-9]+)/([a-z,A-Z,_=]+)$ /demo1/classes-subscriptions.php?location=$2&path=$1&action=$4&class_id=$3 [L]
-RewriteRule ^admin/([a-z,0-9,A-Z,_=]+)/([a-z,0-9,A-Z,_=]+)/subscriptions/([0-9]+)/([a-z,A-Z,_=]+)/([0-9]+)$ /demo1/classes-subscriptions.php?location=$2&path=$1&action=$4&class_id=$3&id=$5 [L]
-RewriteRule ^admin/([a-z,0-9,A-Z,_=]+)/([a-z,0-9,A-Z,_=]+)/([a-z,0-9,A-Z,_=]+)/([0-9]+)$ /demo1/$2.php?location=$2&path=$1&action=$3&id=$4 [L]
+RewriteRule ^admin/([a-z,0-9,A-Z,_=]+)/([a-z,0-9,A-Z,_-]+)/([0-9]+)/([a-z,0-9,A-Z]+)$ /demo1/$2.php?location=$2&path=$1&action=$4&id=$3&ref= [L]
+RewriteRule ^admin/([a-z,0-9,A-Z,_=]+)/([a-z,0-9,A-Z,_-]+)/([0-9]+)/([0-9]+)/([a-zA-Z,_=]+)$ /demo1/$2.php?location=$2&path=$1&id=$3&ref=$4&action=$5 [L]
+
+
 RewriteRule ^admin/([a-z,0-9,A-Z,_=]+)/([a-z,0-9,A-Z,_=]+)/([a-z,0-9,A-Z,_=]+)$ /demo1/$2.php?location=$2&path=$1&action=$3 [L]
 
 RewriteRule ^admin/([a-z,0-9,A-Z,_=]+)/show$ /demo1/$1.php?location=$2&path=$1&action=show [L]

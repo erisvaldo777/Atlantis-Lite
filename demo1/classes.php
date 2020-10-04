@@ -13,10 +13,11 @@ $in       =  ${'_'.$method};
 
 $action = isset($_POST['action']) ? $in['action'] : $_GET['action'];
 
-$CLASS         =  new Classes($_SESSION['CLIENT_ID']);
+$CLASS         =  new Classes($_SESSION['USER_ID']);
 
 $ROWS_COURSES = $CLASS->select()->from('courses')->where('course_status_id','=',1)->execute();
 $ROWS_CITIES = $CLASS->select()->from('cities')->execute();
+$ROWS_USERS = $CLASS->select()->from('users')->execute();
 $ROWS_STATUS = $CLASS->select()->from('status')->where('class','=',1)->execute();
 
 $CLASS->table = 'classes';
@@ -117,11 +118,11 @@ require_once("head.php"); ?>
                                         <form method="post">
                                             <div class="row">                            
 
-                                                <div class="form-group col-md-12">
+                                                <div class="form-group col-md-4">
                                                     <label>Nome da turma</label>
                                                     <input type="text" class="form-control" <?= $CLASS->valueN("class_name");?>" >
                                                 </div>                            
-                                                <div class="form-group col-md-12">
+                                                <div class="form-group col-md-4">
                                                     <label>Curso vinculado</label>
                                                     <select class="form-control"  name="course_id">
                                                         <option value="">Selecione</option>
@@ -131,15 +132,15 @@ require_once("head.php"); ?>
                                                     </select>
                                                 </div>
 
-                                                <div class="form-group col-md-12">
+                                                <div class="form-group col-md-2">
                                                     <label>Data início</label>
                                                     <input type="text" class="form-control" <?= $CLASS->valueN("dt_start","dmy");?>" >
                                                 </div>                            
-                                                <div class="form-group col-md-12">
+                                                <div class="form-group col-md-2">
                                                     <label>Data fim</label>
                                                     <input type="text" class="form-control" <?= $CLASS->valueN("dt_end","dmy");?>" >
                                                 </div>                            
-                                                <div class="form-group col-md-12">
+                                                <div class="form-group col-md-4">
                                                     <label>Cidade</label>
                                                     <select class="form-control"  name="city_id">
                                                         <option value="">Selecione</option>
@@ -148,6 +149,23 @@ require_once("head.php"); ?>
                                                         <?php }?>
                                                     </select>
                                                 </div>
+                                                <div class="form-group col-md-4">
+                                                    <label>Secretário da turma</label>
+                                                    <select class="form-control"  name="user_id">
+                                                        <option value="">Selecione</option>
+                                                        <?php foreach($ROWS_USERS as $k=>$v){?>
+                                                            <option <?= $CLASS->value_select("user_id",$v["user_id"]);?>><?= $v["user_name"];?></option>
+                                                        <?php }?>
+                                                    </select>
+                                                </div>
+                                                <div class="form-group col-md-2">
+                                                    <label>Preço à vista</label>
+                                                    <input type="text" class="form-control" <?= $CLASS->valueN("price_cash","decimal6");?>" >
+                                                </div>                            
+                                                <div class="form-group col-md-2">
+                                                    <label>Preço parcelado</label>
+                                                    <input type="text" class="form-control" <?= $CLASS->valueN("price_split","decimal6");?>" >
+                                                </div>  
 
                                                 <div class="form-group col-md-12">
                                                     <label>Status</label>
@@ -205,8 +223,8 @@ require_once("head.php"); ?>
                                                             <td><?= $v['city_name'];?></td>
                                                             <td><?= $v['status_name'];?></td>
                                                             <td class="text-right">
-                                                                <a href="update/<?= $v['class_id'];?>" class="btn btn-success btNewImage btn-sm"><i class="fa fa-edit"></i></a>
-                                                                <a href="subscriptions/<?= $v['class_id'];?>/list" class="btn btn-warning btNewImage btn-sm"><i class="fa fa-edit"></i></a>
+                                                                <a href="<?= $v['class_id'];?>/update" class="btn btn-success btNewImage btn-sm"><i class="fa fa-edit"></i></a>
+                                                                <a href="../classes-subscriptions/<?= $v['class_id'];?>/list" class="btn btn-warning btNewImage btn-sm"><i class="fa fa-edit"></i></a>
                                                                 <button class="btn btn-danger btn-sm" data-row="<? $k;?>" data-column_name="<?= $v["class_name"]; ?>" data-id="<?= $v["class_id"]; ?>" data-toggle="modal" data-target="#modal-confirm-delete" type="button"><i class="fa fa-trash"></i> </button>
                                                             </td>
                                                         </tr>

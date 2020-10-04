@@ -20,8 +20,8 @@ class Sql extends singularis{
 	public function pdo_create($args)
 	{
 
-		$create = new Create();			
-
+		$create = new Create();	
+		
 		$create->ExeCreate($this->table,$this->data);
 		$return = $create->getResult();
 		if($return==null){
@@ -43,7 +43,7 @@ class Sql extends singularis{
 		$where    = [];
 		$param    = [];
 		$limit    = isset($args['limit'])?' limit '.$args['limit']:'';
-		$order_by = isset($args['order_by'])?' ORDER BY '.$args['order_by']:'';
+		$order_by = isset($args['order_by'])?' ORDER BY '.$args['order_by'] : '';
 
 		if(!empty($args['where'])){
 			foreach ($args['where'] as $key => $v) {				
@@ -68,7 +68,7 @@ class Sql extends singularis{
 			$return  = [];		
 		if($this->dataType!='')
 			$dado = json_encode($dado);
-		$this->sql['where'] = [];
+		$this->sql = [];
 		return $dado;
 	}
 
@@ -83,8 +83,7 @@ class Sql extends singularis{
 		/*FAZ O TRATAMENTO DAS SELECTS*/
 		if(is_array($args['columns'])){
 			$select   = '';
-			foreach ($args['columns'] as $k1 => $v1) {
-				print_r($v1);echo $k1.'<br>';
+			foreach ($args['columns'] as $k1 => $v1) {				
 				foreach ($v1 as $k2 => $v2) {
 
 					if($k2>0)
@@ -111,7 +110,7 @@ class Sql extends singularis{
 				$and =" {$v['andOr']} {$v['col1']} = {$v['value']}"; 
 			
 			$leftJoin.= "left JOIN {$v['tb']} AS $tb_alias ON ({$v['tb_column']}={$tb_ref})$and"; 
-						
+			
 		}
 
 		$where     = [];
@@ -133,7 +132,7 @@ class Sql extends singularis{
 			$where = '';
 			$param = '';
 		}
-		
+
 		//echo "SELECT {$select} FROM $this->table AS $alias $leftJoin $where $limit $order_by".$param;
 
 		$read    = new Read();
@@ -146,7 +145,8 @@ class Sql extends singularis{
 			$return  = [];		
 		if($this->dataType!='')
 			$dado = json_encode($dado);
-		$this->sql['where'] = [];
+		$this->sql = [];
+		
 		return $dado;
 	}
 	public function pdo_update($args)

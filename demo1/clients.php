@@ -30,7 +30,8 @@ if($method=='GET' && $action == 'update' ){
     ->leftJoin('cities','C.city_id')
     ->leftJoin('states','D.state_id')
     ->leftJoin('status','E.status_id','client_status_id')
-    ->where('client_status_id','!=',0)->execute();    
+    ->where('client_status_id','!=',0)
+    ->where('created_by_user_id','=',$_SESSION['USER_ID'])->execute();    
 }else if($action == 'create' && $method == 'GET'){
     $ROWS = [];        
 }else{
@@ -214,8 +215,7 @@ require_once("head.php"); ?>
                                                         <th>Nome do cliente</th>
                                                         <th>Email</th>
                                                         <th>Whatsapp</th>
-                                                        <th>Cidade</th>
-                                                        <th>UF</th>
+                                                        <th>Cidade</th>                                                        
                                                         <th>Status</th><th></th>
                                                     </tr>
                                                 </thead>
@@ -228,12 +228,11 @@ require_once("head.php"); ?>
                                                         <tr>
                                                             <td><?= $v['client_name'];?></td>
                                                             <td><?= $v['email'];?></td>
-                                                            <td><?= $v['whatsapp_number'];?></td>
-                                                            <td><?= $v['city_name'];?></td>
-                                                            <td><?= $v['state_abbr'];?></td>
+                                                            <td nowrap=""><?= $CLASS->mask($v["whatsapp_number"],"cel");?></td>
+                                                            <td><?= $v['city_name'].'/'.$v['state_abbr'];?></td>        
                                                             <td><?= $v['status_name'];?></td>
-                                                            <td class="text-right">
-                                                                <a href="update/<?= $v['client_id'];?>" class="btn btn-sm btn-success btNewImage"><i class="fa fa-edit"></i></a>
+                                                            <td class="text-right" nowrap="">
+                                                                <a href="<?= $v['client_id'];?>/update" class="btn btn-sm btn-success btNewImage"><i class="fa fa-edit"></i></a>
                                                                 <button class="btn btn-sm btn-danger" data-row="<? $k;?>" data-column_name="<?= $v["client_name"]; ?>" data-id="<?= $v["client_id"]; ?>" data-toggle="modal" data-target="#modal-confirm-delete" type="button"><i class="fa fa-trash"></i> </button>
                                                             </td>
                                                         </tr>

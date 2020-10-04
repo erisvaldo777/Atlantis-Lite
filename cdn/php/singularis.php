@@ -1,6 +1,10 @@
 <?PHP 
 /*SINGULARIS
 
+VERSAO: 15-09-2020
+Alterado método value_select($col,$value,$valueRef = NULL)
+acrescentando o paramentro $valueRef
+
 VERSAO: 01-09-2020
 Adicionado o método toChar(...)
 
@@ -66,13 +70,14 @@ class singularis{
 		$arr['decimal3'] 	= "[9].99";
 		$arr['decimal4'] 	= "[9][9].99";
 		$arr['decimal5'] 	= "[9][9][9].99";
+		$arr['decimal6'] 	= "[9][9][9][9].99";
 
 		return 'data-mask data-inputmask="\'mask\':\''.$arr[$v].'\'"';
 	}
-	public function value_select($col,$value)
+	public function value_select($col,$value,$valueRef = NULL)
 	{
 		
-		if($this->getCol($col)==$value)
+		if($this->getCol($col) == $value || ($this->getCol($col) == '' && $valueRef != null && $value == $valueRef))
 			$res = 'selected value="'.$value.'"';
 		else
 			$res = 'value="'.$value.'"';

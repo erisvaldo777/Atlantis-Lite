@@ -1,9 +1,9 @@
 <?php          
-class Classes extends Sql{            
-    public $class_id;
+class Rules extends Sql{            
+    public $rule_id;
     public $cols;
     function __construct($sessao=0) {                   
-        $this->table = 'classes';
+        $this->table = 'rules';
         $this->setClientId($sessao);
     }           
 
@@ -11,15 +11,11 @@ class Classes extends Sql{
     {
         
         $this->data = array_filter($array);
-        $this->column('class_name');
-        $this->column('course_id','toInt');
-        $this->column('dt_start',"toDate");
-        $this->column('dt_end',"toDate");
-        $this->column('city_id','toInt');
-        $this->column('price_cash');
-        $this->column('user_id');
-        $this->column('price_split');
-        $this->column('class_status_id');
+        $this->column('screen_id','toInt');
+        $this->column('user_id','toInt');
+        $this->column('c','toInt');
+        $this->column('u','toInt');
+        $this->column('d','toInt');
         
     }
 
