@@ -18,6 +18,7 @@ RewriteRule ^admin/danied-access$ /demo1/danied-access.php?section=$2&page=&acti
 RewriteRule ^([a-z,0-9,A-Z,_=]+)/([a-z,0-9,A-Z]+)$ /demo1/$2.php [L]
 
 RewriteRule ^([a-z,0-9,A-Z,_=]+)/principal/([a-z,0-9,A-Z]+)/([a-z,0-9,A-Z]+)$ /demo1/$2.php?location=$2&path=$1&action=$3&id=$3[L]
+RewriteRule ^([a-z,0-9,A-Z,_=]+)/([a-z,0-9,A-Z,_=]+)/([a-z,0-9,A-Z]+)/([0-9]+)/([a-z,0-9,A-Z]+)$ /demo1/$3.php?location=$2&action=$5&id=$4 [L]
 RewriteRule ^([a-z,0-9,A-Z,_=]+)/principal/([a-z,0-9,A-Z]+)/([0-9]+)/([a-z,0-9,A-Z]+)$ /demo1/$2.php?location=$2&path=$1&action=$4&id=$3 [L]
 RewriteRule ^([a-z,0-9,A-Z,_=]+)/([a-z,0-9,A-Z,_-]+)/([a-z,0-9,A-Z]+)/([0-9]+)/([a-z,0-9,A-Z]+)$ /demo1/$2/$3.php?location=$2&path=$1&action=$5&id=$4 [L]
 

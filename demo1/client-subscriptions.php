@@ -2,7 +2,7 @@
 require_once 'pdo/Config.inc.php';
 require_once '../cdn/php/singularis.php'; 
 require_once '../cdn/php/Sql.class.php'; 
-require_once 'class/Clients.class.php'; 
+require_once 'class/Subscriptions.class.php'; 
 
 
 $error    = '';
@@ -13,25 +13,27 @@ $in       =  ${'_'.$method};
 
 $action = isset($_POST['action']) ? $in['action'] : $_GET['action'];
 
-$CLASS         =  new Clients($_SESSION['USER_ID']);
+$CLASS         =  new Subscriptions($_SESSION['USER_ID']);
 
-
-
-$ROWS_CITIES = $CLASS->select()->from('cities')->execute();
-$ROWS_STATES = $CLASS->select()->from('states')->execute();
+$ROWS_CLIENTS = $CLASS->select()->from('courses')->execute();
+$ROWS_CLASSES = $CLASS->select()->from('classes')->where('class_status_id','=',1)->execute();
+$ROWS_USERS = $CLASS->select()->from('users')->where('user_status_id','=',1)->execute();
 $ROWS_STATUS = $CLASS->select()->from('status')->where('class','=',1)->execute();
-$CLASS->table = 'clients';
+$CLASS->table = 'subscriptions';
 if($method=='GET' && $action == 'update' ){         
-    $ROWS = $CLASS->select()->where('client_id','=',$_GET["id"])->limit('1')->execute()[0];    
+    $ROWS = $CLASS->select()->where('subscription_id','=',$_GET["id"])->limit('1')->execute()[0];    
     $CLASS->setData($ROWS);
 
 }else if($action == 'list'){    
     $ROWS = $CLASS->select()
-    ->leftJoin('cities','C.city_id')
-    ->leftJoin('states','D.state_id')
-    ->leftJoin('status','E.status_id','client_status_id')
-    ->where('client_status_id','!=',0)
-    ->where('created_by_user_id','=',$_SESSION['USER_ID'])->execute();    
+    ->leftJoin('classes','B.class_id')
+    ->leftJoin('courses','C.course_id','B.course_id')    
+    ->leftJoin('status','E.status_id','subscription_status_id')
+    ->where('client_id','=',$_GET['id'])
+    ->execute();    
+    echo "<pre>";
+    print_r($ROWS);
+    echo "</pre>";
 }else if($action == 'create' && $method == 'GET'){
     $ROWS = [];        
 }else{
@@ -40,17 +42,17 @@ if($method=='GET' && $action == 'update' ){
 
         $CLASS->setData($in);
         
-        print_r($CLASS->getData());
+        
         
         if($action == 'create')
             $return = $CLASS->insert()->execute();
         if($action == 'update')
-            $return = $CLASS->update()->where('client_id','=',$_GET['id'])->execute();        
+            $return = $CLASS->update()->where('subscription_id','=',$_GET['id'])->execute();        
         if($action == 'delete')
-            $return = $CLASS->delete($_GET['client_id']);  
+            $return = $CLASS->delete($_GET['subscription_id']);  
 
         if($return > 0 || $return == 'updated' || $return == 'deleted'){
-            header('location:/admin/principal/clients/list');
+            header('location:/admin//subscriptions/list');
             exit;
         };
 
@@ -81,7 +83,7 @@ require_once("head.php"); ?>
                 <div class="page-inner">
                     <!-- PAGE HEADER -->
                     <div class="page-header">
-                        <h4 class="page-title">Clientes</h4>
+                        <h4 class="page-title"></h4>
                         <ul class="breadcrumbs">
                             <li class="nav-home">
                                 <a href="#">
@@ -119,69 +121,42 @@ require_once("head.php"); ?>
                                         <form method="post">
                                             <div class="row">                            
 
-                                                <div class="form-group col-md-6">
-                                                    <label>Nome do cliente</label>
-                                                    <input type="text" class="form-control" <?= $CLASS->valueN("client_name");?>"  required>
-                                                </div>                            
-                                                <div class="form-group col-md-6">
-                                                    <label>Email</label>
-                                                    <input type="text" class="form-control" <?= $CLASS->valueN("email");?>"  required>
-                                                </div>                            
-                                                <div class="form-group col-md-4">
-                                                    <label>Whatsapp</label>
-                                                    <input type="text" class="form-control" <?= $CLASS->valueN("whatsapp_number","cel");?>"  required>
-                                                </div>                            
-                                                <div class="form-group col-md-8">
-                                                    <label>Números de contato</label>
-                                                    <input type="text" class="form-control" <?= $CLASS->valueN("cell_phone");?>"  required>
-                                                </div>                            
-                                                <div class="form-group col-md-4">
-                                                    <label>Profissão</label>
-                                                    <input type="text" class="form-control" <?= $CLASS->valueN("job");?>"  required>
-                                                </div>                            
-                                                <div class="form-group col-md-8">
-                                                    <label>Local de trabalho</label>
-                                                    <input type="text" class="form-control" <?= $CLASS->valueN("workspace");?>"  required>
-                                                </div>                            
                                                 <div class="form-group col-md-12">
-                                                    <label>Endereço</label>
-                                                    <input type="text" class="form-control" <?= $CLASS->valueN("address");?>"  required>
-                                                </div>                            
-                                                <div class="form-group col-md-3">
-                                                    <label>CEP</label>
-                                                    <input type="text" class="form-control" <?= $CLASS->valueN("zip_code","cep");?>"  required>
-                                                </div>                            
-                                                <div class="form-group col-md-6">
-                                                    <label>Id uf</label>
-                                                    <select class="form-control"  name="state_id" required>
+                                                    <label>Cliente</label>
+                                                    <select class="form-control"  name="client_id" required>
                                                         <option value="">Selecione</option>
-                                                        <?php foreach($ROWS_STATES as $k=>$v){?>
-                                                            <option <?= $CLASS->value_select("state_id",$v["state_id"]);?>><?= $v["state_abbr"];?></option>
+                                                        <?php foreach($ROWS_CLIENTS as $k=>$v){?>
+                                                            <option <?= $CLASS->value_select("client_id",$v["client_id"]);?>><?= $v["client_name"];?></option>
                                                         <?php }?>
                                                     </select>
                                                 </div>
-                                                <div class="form-group col-md-3">
-                                                    <label>Cidade</label>
-                                                    <select class="form-control"  name="city_id" required>
+
+                                                <div class="form-group col-md-12">
+                                                    <label>Turma</label>
+                                                    <select class="form-control"  name="class_id" required>
                                                         <option value="">Selecione</option>
-                                                        <?php foreach($ROWS_CITIES as $k=>$v){?>
-                                                            <option <?= $CLASS->value_select("city_id",$v["city_id"]);?>><?= $v["city_name"];?></option>
+                                                        <?php foreach($ROWS_CLASSES as $k=>$v){?>
+                                                            <option <?= $CLASS->value_select("class_id",$v["class_id"]);?>><?= $v["class_name"];?></option>
                                                         <?php }?>
                                                     </select>
                                                 </div>
-                                                
-                                                
-                                                                          
-                                                <div class="form-group col-md-6">
-                                                    <label>Indicado Por</label>
-                                                    <input type="text" class="form-control" <?= $CLASS->valueN("indicated_by");?>"  required>
-                                                </div>                            
-                                                <div class="form-group col-md-6">
+
+                                                <div class="form-group col-md-12">
+                                                    <label>Captador</label>
+                                                    <select class="form-control"  name="created_user_id" required>
+                                                        <option value="">Selecione</option>
+                                                        <?php foreach($ROWS_USERS as $k=>$v){?>
+                                                            <option <?= $CLASS->value_select("created_user_id",$v["user_id"]);?>><?= $v["src"];?></option>
+                                                        <?php }?>
+                                                    </select>
+                                                </div>
+
+                                                <div class="form-group col-md-12">
                                                     <label>Status</label>
-                                                    <select class="form-control"  name="client_status_id" required>
+                                                    <select class="form-control"  name="subscription_status_id" required>
                                                         <option value="">Selecione</option>
                                                         <?php foreach($ROWS_STATUS as $k=>$v){?>
-                                                            <option <?= $CLASS->value_select("client_status_id",$v["status_id"]);?>><?= $v["status_name"];?></option>
+                                                            <option <?= $CLASS->value_select("subscription_status_id",$v["status_id"]);?>><?= $v["status_name"];?></option>
                                                         <?php }?>
                                                     </select>
                                                 </div>
@@ -194,7 +169,7 @@ require_once("head.php"); ?>
                                             </div>
                                             <div class="row">
                                                 <div class="col-md-12">
-                                                    <a class="btn btn-secondary" href="/admin/principal/clients/list"><i class="fa fa-reply"></i> Voltar</a>
+                                                    <a class="btn btn-secondary" href="/admin//subscriptions/list"><i class="fa fa-reply"></i> Voltar</a>
                                                     <button class="btn btn-primary" type="submit"><i class="fa fa-save"></i> Salvar</button>
                                                 </div>
                                             </div>
@@ -212,29 +187,25 @@ require_once("head.php"); ?>
                                             <table class="table table-hover my-0 mt-2">
                                                 <thead>
                                                     <tr>
-                                                        <th>Nome do cliente</th>
-                                                        <th>Email</th>
-                                                        <th>Whatsapp</th>
-                                                        <th>Cidade</th>                                                        
-                                                        <th>Status</th><th></th>
+                                                        <th>Curso</th>
+                                                        <th>Turma</th>
+                                                        <th>Status</th>
+                                                        <th></th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
                                                     <?php if($CLASS->rowCount() == 0){ ?>
                                                         <tr>
-                                                            <td align="center" colspan="15">Nenhum resultado!</td>
+                                                            <td align="center" colspan="6">Nenhum resultado!</td>
                                                         </tr>
                                                     <?php }else{ foreach($ROWS as $k => $v){?>
                                                         <tr>
-                                                            <td><?= $v['client_name'];?></td>
-                                                            <td><?= $v['email'];?></td>
-                                                            <td nowrap=""><?= $CLASS->mask($v["whatsapp_number"],"cel");?></td>
-                                                            <td><?= $v['city_name'].'/'.$v['state_abbr'];?></td>        
+                                                            <td><?= $v['course_name'];?></td>
+                                                            <td><?= $v['class_name'];?></td>
                                                             <td><?= $v['status_name'];?></td>
-                                                            <td class="text-right" nowrap="">
-                                                                <a href="<?= $v['client_id'];?>/update" class="btn btn-sm btn-success btNewImage"><i class="fa fa-edit"></i></a>
-                                                                <a href="/admin/client/client-subscriptions/<?= $v['client_id'];?>/list" class="btn btn-sm btn-success btNewImage"><i class="fa fa-edit"></i></a>
-                                                                <button class="btn btn-sm btn-danger" data-row="<? $k;?>" data-column_name="<?= $v["client_name"]; ?>" data-id="<?= $v["client_id"]; ?>" data-toggle="modal" data-target="#modal-confirm-delete" type="button"><i class="fa fa-trash"></i> </button>
+                                                            <td class="text-right">
+                                                                <a href="<?= $v['subscription_id'];?>/update" class="btn btn-sm btn-success btNewImage"><i class="fa fa-edit"></i></a>
+                                                                <button class="btn btn-sm btn-danger" data-row="<? $k;?>" data-column_name="<?= $v["client_id"]; ?>" data-id="<?= $v["subscription_id"]; ?>" data-toggle="modal" data-target="#modal-confirm-delete" type="button"><i class="fa fa-trash"></i> </button>
                                                             </td>
                                                         </tr>
                                                         <?php }}?></tbody>
@@ -269,7 +240,7 @@ require_once("head.php"); ?>
             </div>
             <!-- MODAIS -->
 
-            <!-- [ START - MODAL CLIENTS ] -->
+            <!-- [ START - MODAL SUBSCRIPTIONS ] -->
             <div class="modal fade" id="modal-confirm-delete" tabindex="-1" role="dialog" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
@@ -295,14 +266,14 @@ require_once("head.php"); ?>
                     </div>
                 </div>
             </div>
-            <!-- [ END - MODAL CLIENTS ] -->
+            <!-- [ END - MODAL SUBSCRIPTIONS ] -->
 
             <!--   Core JS Files   -->
             <!-- INCLUDE JS -->
             <?php require_once("includes_js.php"); ?>
         </body>
         </html>
-        <!-- <script src="/admin/js/CLIENTS.js"></script> -->
+        <!-- <script src="/admin/js/SUBSCRIPTIONS.js"></script> -->
         <script>
             $(function(){
                 $("[data-mask]").inputmask(); 
@@ -320,10 +291,10 @@ require_once("head.php"); ?>
                         url : "/admin/php/delete.php",
                         type : "post",
                         data : {
-                            table:"clients",
-                            column:"client_id",
-                            values:{"client_status_id":0},
-                            where:[["client_id","=",$this]]
+                            table:"subscriptions",
+                            column:"subscription_id",
+                            values:{"subscription_status_id":0},
+                            where:[["subscription_id","=",$this]]
                         },
                         beforeSend : function(){
                             console.log("before");

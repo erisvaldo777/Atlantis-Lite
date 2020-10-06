@@ -103,7 +103,11 @@ class Sql extends singularis{
 		foreach($args['leftJoin'] as $k => $v) {
 
 			$tb_alias = substr($v['tb_column'],0,1);
-			$tb_ref = $v['tb_ref']==''?$alias.'.'.substr($v['tb_column'],2):$alias.'.'.$v['tb_ref'];
+			
+			$col = strpos($v['tb_ref'],'.') >= 0 ? $v['tb_ref'] : $alias.'.'.$v['tb_ref'];
+
+			$tb_ref = $v['tb_ref'] == '' ? $alias.'.'.substr($v['tb_column'],2) : $col;
+			
 			/*SE EXIRTIR AS OUTRAS CONDIÇÕES DO LAFT JOIN*/
 			$and = '';
 			if(isset($v['andOr']))
@@ -133,7 +137,7 @@ class Sql extends singularis{
 			$param = '';
 		}
 
-		//echo "SELECT {$select} FROM $this->table AS $alias $leftJoin $where $limit $order_by".$param;
+		echo "SELECT {$select} FROM $this->table AS $alias $leftJoin $where $limit $order_by".$param;
 
 		$read    = new Read();
 		$read->FullRead("SELECT {$select} FROM $this->table AS $alias $leftJoin $where $limit $order_by",$param);
