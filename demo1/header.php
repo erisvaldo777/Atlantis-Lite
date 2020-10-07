@@ -134,10 +134,10 @@
 								<div class="quick-actions-scroll scrollbar-outer">
 									<div class="quick-actions-items">
 										<div class="row m-0">
-											<a class="col-6 col-md-4 p-0" href="#">
+											<a class="col-6 col-md-4 p-0" href="/admin/activity/prospection-history/list">
 												<div class="quick-actions-item">
 													<i class="flaticon-file-1"></i>
-													<span class="text">Relatórios de clientes</span>
+													<span class="text">Próximas atividades</span>
 												</div>
 											</a>
 											<a class="col-6 col-md-4 p-0" href="#">

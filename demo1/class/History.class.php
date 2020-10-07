@@ -15,7 +15,9 @@
         $this->column('client_id');
         $this->column('created_at');
         $this->column('dt_contact','toDate');
+        $this->column('history_status_id');
         $this->column('dt_next_contact','toDate');
+        $this->column('b_notification');
         $this->column('description');
 
     }
