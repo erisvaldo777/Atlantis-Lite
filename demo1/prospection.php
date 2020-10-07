@@ -21,33 +21,32 @@ $ROWS_CLIENTS = $CLASS->select()->from('clients')->where('client_status_id','=',
 $ROWS_STATUS = $CLASS->select()->from('status')->where('class','=',1)->execute();
 $CLASS->table = 'prospection';
 if($method=='GET' && $action == 'update' ){         
-    $ROWS = $CLASS->select()->where('prospection_id','=',$_GET["id"])->limit('1')->execute()[0];    
+    $ROWS = $CLASS->select()->where('prospection_id','=',$_GET["ref"])->limit('1')->execute()[0];    
     $CLASS->setData($ROWS);
 
 }else if($action == 'list'){    
     $ROWS = $CLASS->select()
-    ->leftJoin('clients','B.client_id')
+    
     ->leftJoin('status','C.status_id','prospection_status_id')
-    ->where('prospection_status_id','!=',0)->execute();    
+    ->where('client_id','=',$_GET['id'])->execute();    
 }else if($action == 'create' && $method == 'GET'){
     $ROWS = [];        
 }else{
 
     if(isset($in)){
-
-        $CLASS->setData($in);
-        
+$in['client_id'] = $_GET['id'];
+        $CLASS->setData($in);      
         
         
         if($action == 'create')
             $return = $CLASS->insert()->execute();
         if($action == 'update')
-            $return = $CLASS->update()->where('prospection_id','=',$_GET['id'])->execute();        
+            $return = $CLASS->update()->where('prospection_id','=',$_GET['ref'])->execute();        
         if($action == 'delete')
             $return = $CLASS->delete($_GET['prospection_id']);  
 
         if($return > 0 || $return == 'updated' || $return == 'deleted'){
-            header('location:/admin/cadastros/prospection/list');
+            header("location:/admin/cadastros/prospection/{$_GET['id']}/list");
             exit;
         };
 
@@ -147,7 +146,7 @@ require_once("head.php"); ?>
                                             </div>
                                             <div class="row">
                                                 <div class="col-md-12">
-                                                    <a class="btn btn-secondary" href="/admin/cadastros/prospection/list"><i class="fa fa-reply"></i> Voltar</a>
+                                                    <a class="btn btn-secondary" href="/admin/cadastros/prospection/<?= $_GET['id']; ?>/list"><i class="fa fa-reply"></i> Voltar</a>
                                                     <button class="btn btn-primary" type="submit"><i class="fa fa-save"></i> Salvar</button>
                                                 </div>
                                             </div>

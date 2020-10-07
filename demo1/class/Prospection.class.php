@@ -12,7 +12,7 @@ class Prospection extends Sql{
         
         $this->data = array_filter($array);
         $this->column('prospection');
-        $this->data['client_id'] = $this->getClientId();
+        $this->column('client_id');
         $this->column('percentage','toInt');
         $this->column('prospection_status_id');
         

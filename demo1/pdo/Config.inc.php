@@ -5,7 +5,7 @@ $ERROR = NULL;
 
 $subdominio = explode('.', $_SERVER['HTTP_HOST'])[0];
 
-if($subdominio != 'dev'){
+if($subdominio != 'Sdev'){
 /*define('HOST', 'localhost');
 define('USER', 'root');
 define('PASS', '034479');

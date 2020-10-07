@@ -121,35 +121,35 @@ require_once("head.php"); ?>
 
                                                 <div class="form-group col-md-6">
                                                     <label>Nome do cliente</label>
-                                                    <input type="text" class="form-control" <?= $CLASS->valueN("client_name");?>"  required>
+                                                    <input type="text" class="form-control" <?= $CLASS->valueN("client_name");?>  required>
                                                 </div>                            
                                                 <div class="form-group col-md-6">
                                                     <label>Email</label>
-                                                    <input type="text" class="form-control" <?= $CLASS->valueN("email");?>"  required>
+                                                    <input type="text" class="form-control" <?= $CLASS->valueN("email");?>>
                                                 </div>                            
                                                 <div class="form-group col-md-4">
                                                     <label>Whatsapp</label>
-                                                    <input type="text" class="form-control" <?= $CLASS->valueN("whatsapp_number","cel");?>"  required>
+                                                    <input type="text" class="form-control" <?= $CLASS->valueN("whatsapp_number","cel");?>  required>
                                                 </div>                            
                                                 <div class="form-group col-md-8">
                                                     <label>Números de contato</label>
-                                                    <input type="text" class="form-control" <?= $CLASS->valueN("cell_phone");?>"  required>
+                                                    <input type="text" class="form-control" <?= $CLASS->valueN("cell_phone");?>>
                                                 </div>                            
                                                 <div class="form-group col-md-4">
                                                     <label>Profissão</label>
-                                                    <input type="text" class="form-control" <?= $CLASS->valueN("job");?>"  required>
+                                                    <input type="text" class="form-control" <?= $CLASS->valueN("job");?>>
                                                 </div>                            
                                                 <div class="form-group col-md-8">
                                                     <label>Local de trabalho</label>
-                                                    <input type="text" class="form-control" <?= $CLASS->valueN("workspace");?>"  required>
+                                                    <input type="text" class="form-control" <?= $CLASS->valueN("workspace");?>>
                                                 </div>                            
                                                 <div class="form-group col-md-12">
                                                     <label>Endereço</label>
-                                                    <input type="text" class="form-control" <?= $CLASS->valueN("address");?>"  required>
+                                                    <input type="text" class="form-control" <?= $CLASS->valueN("address");?>>
                                                 </div>                            
                                                 <div class="form-group col-md-3">
                                                     <label>CEP</label>
-                                                    <input type="text" class="form-control" <?= $CLASS->valueN("zip_code","cep");?>"  required>
+                                                    <input type="text" class="form-control" <?= $CLASS->valueN("zip_code","cep");?>>
                                                 </div>                            
                                                 <div class="form-group col-md-6">
                                                     <label>Id uf</label>
@@ -233,7 +233,7 @@ require_once("head.php"); ?>
                                                             <td><?= $v['status_name'];?></td>
                                                             <td class="text-right" nowrap="">
                                                                 <a href="<?= $v['client_id'];?>/update" class="btn btn-sm btn-success btNewImage"><i class="fa fa-edit"></i></a>
-                                                                <a href="/admin/client/prospection/<?= $v['client_id'];?>/list" class="btn btn-sm btn-success btNewImage"><i class="fa fa-edit"></i></a>
+                                                                <a href="/admin/cadastros/prospection/<?= $v['client_id'];?>/list" class="btn btn-sm btn-success btNewImage"><i class="fa fa-edit"></i></a>
                                                                 <button class="btn btn-sm btn-danger" data-row="<? $k;?>" data-column_name="<?= $v["client_name"]; ?>" data-id="<?= $v["client_id"]; ?>" data-toggle="modal" data-target="#modal-confirm-delete" type="button"><i class="fa fa-trash"></i> </button>
                                                             </td>
                                                         </tr>
