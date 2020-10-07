@@ -18,7 +18,7 @@ $CLASS         =  new Prospection($_SESSION['USER_ID']);
 
 
 $ROWS_CLIENTS = $CLASS->select()->from('clients')->where('client_status_id','=',1)->execute();
-$ROWS_STATUS = $CLASS->select()->from('status')->where('class','=',1)->execute();
+$ROWS_STATUS = $CLASS->select()->from('status')->where('class','=',2)->execute();
 $CLASS->table = 'prospection';
 if($method=='GET' && $action == 'update' ){         
     $ROWS = $CLASS->select()->where('prospection_id','=',$_GET["ref"])->limit('1')->execute()[0];    
