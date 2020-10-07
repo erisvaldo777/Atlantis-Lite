@@ -37,7 +37,7 @@ if($method=='GET' && $action == 'update' ){
 $in['client_id'] = $_GET['id'];
         $CLASS->setData($in);      
         
-        
+       
         if($action == 'create')
             $return = $CLASS->insert()->execute();
         if($action == 'update')

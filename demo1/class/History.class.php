@@ -10,9 +10,9 @@
     public function setData($array)
     {
 
-        $this->data = array_filter($array);
-        $this->column('user_id','toInt');
-        $this->data['client_id'] = $this->getClientId();
+        $this->data = array_filter($array);        
+        $this->data['user_id'] = $_SESSION['USER_ID'];
+        $this->column('client_id');
         $this->column('created_at');
         $this->column('dt_contact','toDate');
         $this->column('dt_next_contact','toDate');

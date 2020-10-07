@@ -32,13 +32,17 @@ if($method=='GET' && $action == 'update' ){
     if(isset($in)){
         $in['client_id'] = $_GET['id'];
         $in['prospection_id'] = $_GET['ref'];
-        $in['user_id'] = $_SESSION['USER_ID'];
+        
         $in['created_at'] = $C->now();
 
         if($C->data($in['dt_next_contact']) < $C->now('USA'))
             $error = 'Data do próximo contato não pode ser menor que a data atual!';
 
         $C->setData($in);
+
+         echo "<pre>";
+        print_r($C->getData());
+        echo "</pre>";
         if($error == ''){
             if($action == 'create')
                 $return = $C->insert()->execute();
