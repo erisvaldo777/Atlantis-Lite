@@ -10,7 +10,7 @@
     public function setData($array)
     {
 
-        $this->data = array_filter($array);        
+        $this->data = array_filter($array,'strlen');        
         $this->data['user_id'] = $_SESSION['USER_ID'];
         $this->column('client_id');
         $this->column('created_at');

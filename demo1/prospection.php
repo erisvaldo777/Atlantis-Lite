@@ -180,7 +180,7 @@ require_once("head.php"); ?>
                                                         <tr>
                                                             <td><?= $v['prospection'];?></td>
                                                             <td><?= $v['percentage'];?>%</td>
-                                                            <td><?= $CLASS->data($v['dt_next_contact']);?></td>
+                                                            <td><?= $CLASS->data($v['dt_next_contact_view']);?></td>
                                                             <td><?= $v['status_name'];?></td>
                                                             <td class="text-right">
                                                                 <a href="<?= $v['prospection_id'];?>/update" class="btn btn-sm btn-success btNewImage"><i class="fa fa-edit"></i></a>

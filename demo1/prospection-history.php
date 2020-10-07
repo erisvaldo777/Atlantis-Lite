@@ -79,7 +79,7 @@ require_once("head.php"); ?>
                 <div class="page-inner">
                     <!-- PAGE HEADER -->
                     <div class="page-header">
-                        <h4 class="page-title"></h4>
+                        <h4 class="page-title">Atividade</h4>
                         <ul class="breadcrumbs">
                             <li class="nav-home">
                                 <a href="#">
@@ -110,41 +110,7 @@ require_once("head.php"); ?>
                                 <!-- <div class="card-header"></div> -->
                                 <div class="card-body">
 
-                                    <!--=================================| EDIT |=================================-->                    
-
-                                    <?php  if($_GET['action'] == 'update' || $_GET['action'] == 'create'){?>
-
-                                        <form method="post">
-                                            <div class="row">                            
-
-                                                <div class="form-group col-md-12">
-                                                    <label>Data contato</label>
-                                                    <input type="text" class="form-control" <?= $C->valueN("dt_contact");?>  required>
-                                                </div>                            
-                                                <div class="form-group col-md-12">
-                                                    <label>Próximo conttao</label>
-                                                    <input type="text" class="form-control" <?= $C->valueN("dt_next_contact");?>  required>
-                                                </div>                            
-                                                <div class="form-group col-md-12">
-                                                    <label>Descrição</label>
-                                                    <input type="text" class="form-control" <?= $C->valueN("description");?>  required>
-                                                </div>                            </div>
-
-                                                <div class="row" style="display:<?= $error!=''?'block':'none'; ?>">
-                                                    <div class="col-md-12">
-                                                        <div class="alert alert-danger" style="padding: 15px"><b><?= $error; ?></b></div>
-                                                    </div>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col-md-12">
-                                                        <a class="btn btn-secondary" href="///history/list"><i class="fa fa-reply"></i> Voltar</a>
-                                                        <button class="btn btn-primary" type="submit"><i class="fa fa-save"></i> Salvar</button>
-                                                    </div>
-                                                </div>
-                                            </form>
-
-                                        <?php  }?>
-
+                              
                                         <!--=================================| /EDIT |=================================-->
 
                                         <?php  if($_GET['action'] == 'list'){?>
@@ -156,8 +122,8 @@ require_once("head.php"); ?>
                                                     <thead>
                                                         <tr>
                                                             <th>Cliente</th>
-                                                            <th>Data contato</th>
-                                                            <th>Próximo conttao</th>
+                                                            <th>Data do contato</th>
+                                                            <th>Próximo contato</th>
                                                             <th>Descrição</th>
                                                             <th></th>
                                                         </tr>
@@ -174,8 +140,8 @@ require_once("head.php"); ?>
                                                                 <td><?= $C->toDate($v['dt_next_contact']);?></td>
                                                                 <td><?= $v['description'];?></td>
                                                                 <td class="text-right">
-                                                                    <a href="<?= $v['history_id'];?>/update" class="btn btn-sm btn-success btNewImage"><i class="fa fa-edit"></i></a>
-                                                                    <button class="btn btn-sm btn-danger" data-row="<? $k;?>" data-column_name="<?= $v["prospection_id"]; ?>" data-id="<?= $v["history_id"]; ?>" data-toggle="modal" data-target="#modal-confirm-delete" type="button"><i class="fa fa-trash"></i> </button>
+                                                                    <a href="/admin/cadastros/history/<?= $v['client_id'];?>/<?= $v['prospection_id'];?>/<?= $v['history_id'];?>/update" target="_history" class="btn btn-sm btn-primary btNewImage"><i class="fa fa-forward"></i></a>
+                                                                   
                                                                 </td>
                                                             </tr>
                                                             <?php }}?></tbody>
@@ -183,15 +149,7 @@ require_once("head.php"); ?>
                                                     </div>                                                
 
 
-                                                    <div class="col-md-12">
-                                                        <hr>
-
-
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <a href="create" class="btn btn-primary"><i class="fa fa-plus"></i> Novo</a>
-
-                                                    </div>
+                                                    
                                                     <!-- DIV SEPARADO DE OPTIONAL -->                    
                                                 <?php } ?>
 
