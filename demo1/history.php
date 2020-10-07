@@ -13,40 +13,45 @@ $in       =  ${'_'.$method};
 
 $action = isset($_POST['action']) ? $in['action'] : $_GET['action'];
 
-$CLASS         =  new History($_SESSION['USER_ID']);
+$C         =  new History($_SESSION['USER_ID']);
 
 
 
-$CLASS->table = 'history';
+$C->table = 'history';
 if($method=='GET' && $action == 'update' ){         
-    $ROWS = $CLASS->select()->where('history_id','=',$_GET["id"])->limit('1')->execute()[0];    
-    $CLASS->setData($ROWS);
+    $ROWS = $C->select()->where('history_id','=',$_GET["third_id"])->limit('1')->execute()[0];    
+    $C->setData($ROWS);
 
 }else if($action == 'list'){    
-    $ROWS = $CLASS->select()
-    ->where('','!=',0)->execute();    
+    $ROWS = $C->select()
+    ->where('prospection_id','=',$_GET['ref'])->order_by('dt_contact desc')->execute();    
 }else if($action == 'create' && $method == 'GET'){
     $ROWS = [];        
 }else{
 
     if(isset($in)){
+        $in['client_id'] = $_GET['id'];
+        $in['prospection_id'] = $_GET['ref'];
+        $in['user_id'] = $_SESSION['USER_ID'];
+        $in['created_at'] = $C->now();
 
-        $CLASS->setData($in);
-        
-        
-        
-        if($action == 'create')
-            $return = $CLASS->insert()->execute();
-        if($action == 'update')
-            $return = $CLASS->update()->where('history_id','=',$_GET['id'])->execute();        
-        if($action == 'delete')
-            $return = $CLASS->delete($_GET['history_id']);  
+        if($C->data($in['dt_next_contact']) < $C->now('USA'))
+            $error = 'Data do próximo contato não pode ser menor que a data atual!';
 
-        if($return > 0 || $return == 'updated' || $return == 'deleted'){
-            header('location:/admin/monitoring/history/list');
-            exit;
-        };
+        $C->setData($in);
+        if($error == ''){
+            if($action == 'create')
+                $return = $C->insert()->execute();
+            if($action == 'update')
+                $return = $C->update()->where('history_id','=',$_GET['third_id'])->execute();        
+            if($action == 'delete')
+                $return = $C->delete($_GET['history_id']);  
 
+            if($return > 0 || $return == 'updated' || $return == 'deleted'){
+                header("location:/admin/cadastros/history/{$_GET['id']}/{$_GET['ref']}/list");
+                exit;
+            };
+        }
         if($return == 'no-created'||$return == 'no-updated'||$return == 'no-deleted'){
             $error = 'Não foi possivel fazer alteração!';            
         }     
@@ -55,7 +60,7 @@ if($method=='GET' && $action == 'update' ){
 
 if($method == 'POST' && ($action == 'show' || $action == 'update')){
     $ROWS = $_POST;
-    $CLASS->setData($ROWS);    
+    $C->setData($ROWS);    
 }
 
 require_once("head.php"); ?>
@@ -111,21 +116,18 @@ require_once("head.php"); ?>
 
                                         <form method="post">
                                             <div class="row">                                                        
+                                                                           
                                                 <div class="form-group col-md-6">
-                                                    <label>Nome do Cliente</label>
-                                                    <input type="text" class="form-control" <?= $CLASS->valueN("client_id");?>"  required>
-                                                </div>                            
-                                                <div class="form-group col-md-3">
                                                     <label>Data do Contato</label>
-                                                    <input type="text" class="form-control" <?= $CLASS->valueN("dt_contact");?>"  required>
+                                                    <input type="text" class="form-control" <?= $C->valueN("dt_contact","dmyhis");?>  required>
                                                 </div>                            
-                                                <div class="form-group col-md-3">
+                                                <div class="form-group col-md-6">
                                                     <label>Próximo contato</label>
-                                                    <input type="text" class="form-control" <?= $CLASS->valueN("dt_next_contact");?>"  required>
+                                                    <input type="text" class="form-control" <?= $C->valueN("dt_next_contact","dmy");?>  required>
                                                 </div>                            
                                                 <div class="form-group col-md-12">
                                                     <label>Descrição</label>
-                                                    <textarea type="text" class="form-control" <?= $CLASS->valueN("description");?>"  required></textarea>
+                                                    <textarea type="text" class="form-control" name="description" required><?= $C->getCol("description");?></textarea>
                                                 </div>                            </div>
 
                                                 <div class="row" style="display:<?= $error!=''?'block':'none'; ?>">
@@ -135,7 +137,7 @@ require_once("head.php"); ?>
                                                 </div>
                                                 <div class="row">
                                                     <div class="col-md-12">
-                                                        <a class="btn btn-secondary" href="/admin/monitoring/history/list"><i class="fa fa-reply"></i> Voltar</a>
+                                                        <a class="btn btn-secondary" href="/admin/cadastros/history/<?= $_GET['id'] ?>/<?= $_GET['ref'] ?>/list"><i class="fa fa-reply"></i> Voltar</a>
                                                         <button class="btn btn-primary" type="submit"><i class="fa fa-save"></i> Salvar</button>
                                                     </div>
                                                 </div>
@@ -153,30 +155,29 @@ require_once("head.php"); ?>
                                                 <table class="table table-hover my-0 mt-2">
                                                     <thead>
                                                         <tr>
-                                                            <th>Id</th>
-                                                            <th>Nome do Cliente</th>
+
                                                             <th>Data do Contato</th>
-                                                            <th>Próximo contato</th>
-                                                            <th>Descrição</th>
+                                                            <th>Próximo contato</th>                                                            
                                                             <th></th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        <?php if($CLASS->rowCount() == 0){ ?>
+                                                        <?php if($C->rowCount() == 0){ ?>
                                                             <tr>
                                                                 <td align="center" colspan="7">Nenhum resultado!</td>
                                                             </tr>
                                                         <?php }else{ foreach($ROWS as $k => $v){?>
-                                                            <tr>
-                                                                <td><?= $v['history_id'];?></td>
-                                                                <td><?= $v['client_id'];?></td>
-                                                                <td><?= $v['dt_contact'];?></td>
-                                                                <td><?= $v['dt_next_contact'];?></td>
-                                                                <td><?= $v['description'];?></td>
-                                                                <td class="text-right">
+
+                                                            <tr> 
+                                                                <td><?= $C->data($v['dt_contact']);?></td>
+                                                                <td><?= $C->data($v['dt_next_contact']);?></td>  
+                                                                <td rowspan="2" style="border: solid 2px #000" class="text-center">
                                                                     <a href="<?= $v['history_id'];?>/update" class="btn btn-sm btn-success btNewImage"><i class="fa fa-edit"></i></a>
                                                                     <button class="btn btn-sm btn-danger" data-row="<? $k;?>" data-column_name="<?= $v["user_id"]; ?>" data-id="<?= $v["history_id"]; ?>" data-toggle="modal" data-target="#modal-confirm-delete" type="button"><i class="fa fa-trash"></i> </button>
-                                                                </td>
+                                                                </td>                                                               
+                                                            </tr>          
+                                                            <tr style="border-bottom: solid 2px #999">
+                                                                <td colspan="2"><?= $v['description'];?></td>
                                                             </tr>
                                                             <?php }}?></tbody>
                                                         </table>
@@ -189,8 +190,8 @@ require_once("head.php"); ?>
 
                                                     </div>
                                                     <div class="form-group">
+                                                        <a href="/admin/cadastros/prospection/<?= $_GET['id']; ?>/list" class="btn btn-secondary"><i class="fa fa-reply"></i> Voltar</a>
                                                         <a href="create" class="btn btn-primary"><i class="fa fa-plus"></i> Novo</a>
-
                                                     </div>
                                                     <!-- DIV SEPARADO DE OPTIONAL -->                    
                                                 <?php } ?>

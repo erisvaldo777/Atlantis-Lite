@@ -1,23 +1,21 @@
 <?php          
- class History extends Sql{            
-    public $history_id;
+class Prospection extends Sql{            
+    public $prospection_id;
     public $cols;
     function __construct($sessao=0) {                   
-        $this->table = 'history';
+        $this->table = 'prospection';
         $this->setClientId($sessao);
     }           
 
     public function setData($array)
     {
-
+        
         $this->data = array_filter($array);
-        $this->column('user_id','toInt');
+        $this->column('prospection');
         $this->data['client_id'] = $this->getClientId();
-        $this->column('created_at');
-        $this->column('dt_contact','toDate');
-        $this->column('dt_next_contact','toDate');
-        $this->column('description');
-
+        $this->column('percentage','toInt');
+        $this->column('prospection_status_id');
+        
     }
 
     public function getClientId()

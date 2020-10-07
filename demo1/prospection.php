@@ -2,7 +2,7 @@
 require_once 'pdo/Config.inc.php';
 require_once '../cdn/php/singularis.php'; 
 require_once '../cdn/php/Sql.class.php'; 
-require_once 'class/Subscriptions.class.php'; 
+require_once 'class/Prospection.class.php'; 
 
 
 $error    = '';
@@ -13,24 +13,22 @@ $in       =  ${'_'.$method};
 
 $action = isset($_POST['action']) ? $in['action'] : $_GET['action'];
 
-$CLASS         =  new Subscriptions($_SESSION['USER_ID']);
+$CLASS         =  new Prospection($_SESSION['USER_ID']);
 
-$ROWS_CLIENTS = $CLASS->select()->from('courses')->execute();
-$ROWS_CLASSES = $CLASS->select()->from('classes')->where('class_status_id','=',1)->execute();
-$ROWS_USERS = $CLASS->select()->from('users')->where('user_status_id','=',1)->execute();
-$ROWS_STATUS = $CLASS->select()->from('status')->where('class','=',2)->execute();
-$CLASS->table = 'subscriptions';
+
+
+$ROWS_CLIENTS = $CLASS->select()->from('clients')->where('client_status_id','=',1)->execute();
+$ROWS_STATUS = $CLASS->select()->from('status')->where('class','=',1)->execute();
+$CLASS->table = 'prospection';
 if($method=='GET' && $action == 'update' ){         
-    $ROWS = $CLASS->select()->where('subscription_id','=',$_GET["id"])->limit('1')->execute()[0];    
+    $ROWS = $CLASS->select()->where('prospection_id','=',$_GET["id"])->limit('1')->execute()[0];    
     $CLASS->setData($ROWS);
 
 }else if($action == 'list'){    
     $ROWS = $CLASS->select()
-    ->leftJoin('classes','B.class_id')
-    ->leftJoin('courses','C.course_id','B.course_id')    
-    ->leftJoin('status','E.status_id','subscription_status_id')
-    ->where('client_id','=',$_GET['id'])
-    ->execute();    
+    ->leftJoin('clients','B.client_id')
+    ->leftJoin('status','C.status_id','prospection_status_id')
+    ->where('prospection_status_id','!=',0)->execute();    
 }else if($action == 'create' && $method == 'GET'){
     $ROWS = [];        
 }else{
@@ -44,12 +42,12 @@ if($method=='GET' && $action == 'update' ){
         if($action == 'create')
             $return = $CLASS->insert()->execute();
         if($action == 'update')
-            $return = $CLASS->update()->where('subscription_id','=',$_GET['id'])->execute();        
+            $return = $CLASS->update()->where('prospection_id','=',$_GET['id'])->execute();        
         if($action == 'delete')
-            $return = $CLASS->delete($_GET['subscription_id']);  
+            $return = $CLASS->delete($_GET['prospection_id']);  
 
         if($return > 0 || $return == 'updated' || $return == 'deleted'){
-            header('location:/admin//subscriptions/list');
+            header('location:/admin/cadastros/prospection/list');
             exit;
         };
 
@@ -80,7 +78,7 @@ require_once("head.php"); ?>
                 <div class="page-inner">
                     <!-- PAGE HEADER -->
                     <div class="page-header">
-                        <h4 class="page-title"></h4>
+                        <h4 class="page-title">Prospecção</h4>
                         <ul class="breadcrumbs">
                             <li class="nav-home">
                                 <a href="#">
@@ -119,41 +117,24 @@ require_once("head.php"); ?>
                                             <div class="row">                            
 
                                                 <div class="form-group col-md-12">
-                                                    <label>Cliente</label>
-                                                    <select class="form-control"  name="client_id" required>
-                                                        <option value="">Selecione</option>
-                                                        <?php foreach($ROWS_CLIENTS as $k=>$v){?>
-                                                            <option <?= $CLASS->value_select("client_id",$v["client_id"]);?>><?= $v["client_name"];?></option>
-                                                        <?php }?>
-                                                    </select>
-                                                </div>
-
+                                                    <label>Título</label>
+                                                    <input type="text" class="form-control" <?= $CLASS->valueN("prospection");?>"  required>
+                                                </div>                            
                                                 <div class="form-group col-md-12">
-                                                    <label>Turma</label>
-                                                    <select class="form-control"  name="class_id" required>
+                                                    <label>Percentual</label>                                                    
+                                                    <select class="form-control"  name="percentage" required>
                                                         <option value="">Selecione</option>
-                                                        <?php foreach($ROWS_CLASSES as $k=>$v){?>
-                                                            <option <?= $CLASS->value_select("class_id",$v["class_id"]);?>><?= $v["class_name"];?></option>
+                                                        <?php foreach([10,20,30,40,50,60,70,80,90,100] as $k=>$v){?>
+                                                            <option <?= $CLASS->value_select("percentage",$v);?>><?= $v;?>%</option>
                                                         <?php }?>
                                                     </select>
-                                                </div>
-
-                                                <div class="form-group col-md-12">
-                                                    <label>Captador</label>
-                                                    <select class="form-control"  name="created_user_id" required>
-                                                        <option value="">Selecione</option>
-                                                        <?php foreach($ROWS_USERS as $k=>$v){?>
-                                                            <option <?= $CLASS->value_select("created_user_id",$v["user_id"]);?>><?= $v["src"];?></option>
-                                                        <?php }?>
-                                                    </select>
-                                                </div>
-
+                                                </div>                            
                                                 <div class="form-group col-md-12">
                                                     <label>Status</label>
-                                                    <select class="form-control"  name="subscription_status_id" required>
+                                                    <select class="form-control"  name="prospection_status_id" required>
                                                         <option value="">Selecione</option>
                                                         <?php foreach($ROWS_STATUS as $k=>$v){?>
-                                                            <option <?= $CLASS->value_select("subscription_status_id",$v["status_id"]);?>><?= $v["status_name"];?></option>
+                                                            <option <?= $CLASS->value_select("prospection_status_id",$v["status_id"]);?>><?= $v["status_name"];?></option>
                                                         <?php }?>
                                                     </select>
                                                 </div>
@@ -166,7 +147,7 @@ require_once("head.php"); ?>
                                             </div>
                                             <div class="row">
                                                 <div class="col-md-12">
-                                                    <a class="btn btn-secondary" href="/admin//subscriptions/list"><i class="fa fa-reply"></i> Voltar</a>
+                                                    <a class="btn btn-secondary" href="/admin/cadastros/prospection/list"><i class="fa fa-reply"></i> Voltar</a>
                                                     <button class="btn btn-primary" type="submit"><i class="fa fa-save"></i> Salvar</button>
                                                 </div>
                                             </div>
@@ -184,8 +165,8 @@ require_once("head.php"); ?>
                                             <table class="table table-hover my-0 mt-2">
                                                 <thead>
                                                     <tr>
-                                                        <th>Curso</th>
-                                                        <th>Turma</th>
+                                                        <th>Título</th>
+                                                        <th>Percentual</th>
                                                         <th>Status</th>
                                                         <th></th>
                                                     </tr>
@@ -193,16 +174,17 @@ require_once("head.php"); ?>
                                                 <tbody>
                                                     <?php if($CLASS->rowCount() == 0){ ?>
                                                         <tr>
-                                                            <td align="center" colspan="6">Nenhum resultado!</td>
+                                                            <td align="center" colspan="5">Nenhum resultado!</td>
                                                         </tr>
                                                     <?php }else{ foreach($ROWS as $k => $v){?>
                                                         <tr>
-                                                            <td><?= $v['course_name'];?></td>
-                                                            <td><?= $v['class_name'];?></td>
+                                                            <td><?= $v['prospection'];?></td>
+                                                            <td><?= $v['percentage'];?>%</td>
                                                             <td><?= $v['status_name'];?></td>
                                                             <td class="text-right">
-                                                                <a href="<?= $v['subscription_id'];?>/update" class="btn btn-sm btn-success btNewImage"><i class="fa fa-edit"></i></a>
-                                                                <button class="btn btn-sm btn-danger" data-row="<? $k;?>" data-column_name="<?= $v["client_id"]; ?>" data-id="<?= $v["subscription_id"]; ?>" data-toggle="modal" data-target="#modal-confirm-delete" type="button"><i class="fa fa-trash"></i> </button>
+                                                                <a href="<?= $v['prospection_id'];?>/update" class="btn btn-sm btn-success btNewImage"><i class="fa fa-edit"></i></a>
+                                                                <a href="/admin/cadastros/history/<?= $_GET['id'];?>/<?= $v['prospection_id'];?>/list" class="btn btn-sm btn-info btNewImage"><i class="fa fa-edit"></i></a>
+                                                                <button class="btn btn-sm btn-danger" data-row="<? $k;?>" data-column_name="<?= $v["prospection"]; ?>" data-id="<?= $v["prospection_id"]; ?>" data-toggle="modal" data-target="#modal-confirm-delete" type="button"><i class="fa fa-trash"></i> </button>
                                                             </td>
                                                         </tr>
                                                         <?php }}?></tbody>
@@ -216,8 +198,8 @@ require_once("head.php"); ?>
 
                                                 </div>
                                                 <div class="form-group">
+                                                    <a href="/admin/cadastros/clients/list" class="btn btn-secondary"><i class="fa fa-plus"></i> Voltar</a>
                                                     <a href="create" class="btn btn-primary"><i class="fa fa-plus"></i> Novo</a>
-
                                                 </div>
                                                 <!-- DIV SEPARADO DE OPTIONAL -->                    
                                             <?php } ?>
@@ -237,7 +219,7 @@ require_once("head.php"); ?>
             </div>
             <!-- MODAIS -->
 
-            <!-- [ START - MODAL SUBSCRIPTIONS ] -->
+            <!-- [ START - MODAL PROSPECTION ] -->
             <div class="modal fade" id="modal-confirm-delete" tabindex="-1" role="dialog" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
@@ -263,14 +245,14 @@ require_once("head.php"); ?>
                     </div>
                 </div>
             </div>
-            <!-- [ END - MODAL SUBSCRIPTIONS ] -->
+            <!-- [ END - MODAL PROSPECTION ] -->
 
             <!--   Core JS Files   -->
             <!-- INCLUDE JS -->
             <?php require_once("includes_js.php"); ?>
         </body>
         </html>
-        <!-- <script src="/admin/js/SUBSCRIPTIONS.js"></script> -->
+        <!-- <script src="/admin/js/PROSPECTION.js"></script> -->
         <script>
             $(function(){
                 $("[data-mask]").inputmask(); 
@@ -288,10 +270,10 @@ require_once("head.php"); ?>
                         url : "/admin/php/delete.php",
                         type : "post",
                         data : {
-                            table:"subscriptions",
-                            column:"subscription_id",
-                            values:{"subscription_status_id":0},
-                            where:[["subscription_id","=",$this]]
+                            table:"prospection",
+                            column:"prospection_id",
+                            values:{"prospection_status_id":0},
+                            where:[["prospection_id","=",$this]]
                         },
                         beforeSend : function(){
                             console.log("before");

@@ -60,6 +60,8 @@ class singularis{
 	public function inputmask($v='')
 	{
 		$arr['dmy'] 		= "99/99/9999";
+		$arr['dmyhi'] 		= "99/99/9999 99:99";
+		$arr['dmyhis'] 		= "99/99/9999 99:99:00";
 		$arr['cel'] 		= "(99) 9 9999-9999";
 		$arr['whatsapp'] 	= "(99) 9 9999-9999";
 		$arr['contact'] 	= "(99) 9 9999-9999";

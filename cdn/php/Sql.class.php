@@ -137,7 +137,7 @@ class Sql extends singularis{
 			$param = '';
 		}
 
-		echo "SELECT {$select} FROM $this->table AS $alias $leftJoin $where $limit $order_by".$param;
+		//echo "SELECT {$select} FROM $this->table AS $alias $leftJoin $where $limit $order_by".$param;
 
 		$read    = new Read();
 		$read->FullRead("SELECT {$select} FROM $this->table AS $alias $leftJoin $where $limit $order_by",$param);
