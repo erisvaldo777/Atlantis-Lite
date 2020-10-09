@@ -36,7 +36,7 @@ if($ROWS[0]['user_status_id'] == 1){
 		echo 'Você não tem permissão para acessar o sistema nesse momento';
 	
 	}else{
-		$error = 
+		$error = "";
 	}
 }
 
