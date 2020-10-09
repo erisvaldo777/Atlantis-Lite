@@ -41,7 +41,7 @@ if($method=='GET' && $action == 'update' ){
 
         if($action == 'create'){
             $in['dt_created_at'] = $CLASS->now();
-            $in['class_id'] = $_GET['ref'];
+            $in['class_id'] = $_GET['id'];
             $CLASS->setData($in);
             $return = $CLASS->insert()->execute();
             print_r($CLASS->getData($in));
