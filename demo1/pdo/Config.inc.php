@@ -5,8 +5,7 @@ $ERROR = NULL;
 
 
 if($_GET['path'] != 'public'){
-if(!isset($_SESSION['USER_ID'])){
-    echo 'lkjlk';
+if(!isset($_SESSION['USER_ID'])){    
     header('location:/public/login');
         exit;
 }

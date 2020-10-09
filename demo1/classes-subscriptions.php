@@ -44,7 +44,7 @@ if($method=='GET' && $action == 'update' ){
             $in['class_id'] = $_GET['id'];
             $CLASS->setData($in);
             $return = $CLASS->insert()->execute();
-            print_r($CLASS->getData($in));
+            
         }
         if($action == 'update'){
             $CLASS->setData($in);

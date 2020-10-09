@@ -40,8 +40,7 @@ if($method=='GET' && $action == 'update' ){
 
         $CLASS->setData($in);
         
-        print_r($CLASS->getData());
-        
+            
         if($action == 'create')
             $return = $CLASS->insert()->execute();
         if($action == 'update')

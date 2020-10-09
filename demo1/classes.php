@@ -134,11 +134,11 @@ require_once("head.php"); ?>
 
                                                 <div class="form-group col-md-2">
                                                     <label>Data início</label>
-                                                    <input type="text" class="form-control" <?= $CLASS->valueN("dt_start","dmy");?>" >
+                                                    <input type="text" class="form-control" <?= $CLASS->valueN("dt_start","dmy");?>" required>
                                                 </div>                            
                                                 <div class="form-group col-md-2">
                                                     <label>Data fim</label>
-                                                    <input type="text" class="form-control" <?= $CLASS->valueN("dt_end","dmy");?>" >
+                                                    <input type="text" class="form-control" <?= $CLASS->valueN("dt_end","dmy");?>" required>
                                                 </div>                            
                                                 <div class="form-group col-md-4">
                                                     <label>Cidade</label>

@@ -20,11 +20,12 @@ if(!empty($_POST)){
 	->where('password','=',$_POST['password'])
 	->where('user_status_id','!=',0)->limit('1')->execute();
 	
-	if($ROWS[0]['user_status_id'] == 1){
+	if($CLASS->rowCount() > 0){
+if($ROWS[0]['user_status_id'] == 1){
 		$_SESSION['USER_ID']		= $ROWS[0]['user_id'];
 		$_SESSION['USER_TYPE_ID']	= $ROWS[0]['user_type_id'];
 		$_SESSION['USER_NAME']		= $ROWS[0]['user_name'];
-		header('location:../admin/profile/show');
+		header('location:../admin/home');
 		exit;
 	}
 
@@ -34,6 +35,9 @@ if(!empty($_POST)){
 	if($ROWS[0]['user_status_id'] == 4)
 		echo 'Você não tem permissão para acessar o sistema nesse momento';
 	
+	}else{
+		$error = 
+	}
 }
 
 ?><!DOCTYPE html>
