@@ -3,6 +3,16 @@ session_start();
 
 $ERROR = NULL;
 
+
+if($_GET['path'] != 'public'){
+if(!isset($_SESSION['USER_ID'])){
+    echo 'lkjlk';
+    header('location:/public/login');
+        exit;
+}
+
+}
+
 $subdominio = explode('.', $_SERVER['HTTP_HOST'])[0];
 
 if($subdominio != 'Sdev'){
