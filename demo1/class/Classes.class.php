@@ -12,6 +12,7 @@ class Classes extends Sql{
         
         $this->data = array_filter($array);
         $this->column('class_name');
+        $this->column('class_number');
         $this->column('course_id','toInt');
         $this->column('dt_start',"toDate");
         $this->column('dt_end',"toDate");

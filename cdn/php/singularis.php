@@ -1,6 +1,9 @@
 <?PHP 
 /*SINGULARIS
 
+VERSAO: 11-10-2020
+acrescentando o paramentro sing_pad(...)
+
 VERSAO: 15-09-2020
 Alterado método value_select($col,$value,$valueRef = NULL)
 acrescentando o paramentro $valueRef
@@ -73,6 +76,8 @@ class singularis{
 		$arr['decimal4'] 	= "[9][9].99";
 		$arr['decimal5'] 	= "[9][9][9].99";
 		$arr['decimal6'] 	= "[9][9][9][9].99";
+		$arr['int'] 		= "9', 'repeat' : 6, 'greedy' : 'false";
+
 
 		return 'data-mask data-inputmask="\'mask\':\''.$arr[$v].'\'"';
 	}
@@ -88,6 +93,11 @@ class singularis{
 	public function md5($str)
 	{
 		return md5($str);
+	}
+
+	public function sing_pad($s,$i,$caract,$lr=null)
+	{
+		return str_pad($s, $i , $caract,$lr); 
 	}
 	/*UPLOAD upload('$_FILE',[''])*/
 	public function upload($file,$path,$extension,$optionalName='')

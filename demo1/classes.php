@@ -13,21 +13,21 @@ $in       =  ${'_'.$method};
 
 $action = isset($_POST['action']) ? $in['action'] : $_GET['action'];
 
-$CLASS         =  new Classes($_SESSION['USER_ID']);
+$C         =  new Classes($_SESSION['USER_ID']);
 
-$ROWS_COURSES = $CLASS->select()->from('courses')->where('course_status_id','=',1)->execute();
-$ROWS_CITIES = $CLASS->select()->from('cities')->execute();
-$ROWS_USERS = $CLASS->select()->from('users')->execute();
-$ROWS_STATUS = $CLASS->select()->from('status')->where('class','=',1)->execute();
+$ROWS_COURSES = $C->select()->from('courses')->where('course_status_id','=',1)->execute();
+$ROWS_CITIES = $C->select()->from('cities')->execute();
+$ROWS_USERS = $C->select()->from('users')->execute();
+$ROWS_STATUS = $C->select()->from('status')->where('class','=',1)->execute();
 
-$CLASS->table = 'classes';
+$C->table = 'classes';
 
 if($method=='GET' && $action == 'update' ){         
-    $ROWS = $CLASS->select()->where('class_id','=',$_GET["id"])->limit('1')->execute()[0];    
-    $CLASS->setData($ROWS);
+    $ROWS = $C->select()->where('class_id','=',$_GET["id"])->limit('1')->execute()[0];    
+    $C->setData($ROWS);
 
 }else if($action == 'list'){    
-    $ROWS = $CLASS->select()
+    $ROWS = $C->select()
     ->leftJoin('courses','B.course_id')
     ->leftJoin('cities','C.city_id')
     ->leftJoin('status','D.status_id','class_status_id')
@@ -38,15 +38,25 @@ if($method=='GET' && $action == 'update' ){
 }else{
 
     if(isset($in)){
+        echo "<pre>";
+        print_r($in);
+        echo "</pre>";
+        
 
-        $CLASS->setData($in);
-                
-        if($action == 'create')
-            $return = $CLASS->insert()->execute();
+        if($action == 'create'){
+            $return = $C->select('count(*) as total')->where('city_id','=',$in['city_id'])->where('course_id','=',$in['course_id'])->execute();
+            if($C->rowCount() > 0){
+                $in['class_number'] = $return[0]['total']+1;
+                $C->setData($in);
+                $return = $C->insert()->execute();
+            }
+            
+        }
+        $C->setData($in);
         if($action == 'update')
-            $return = $CLASS->update()->where('class_id','=',$_GET['id'])->execute();        
+            $return = $C->update()->where('class_id','=',$_GET['id'])->execute();        
         if($action == 'delete')
-            $return = $CLASS->delete($_GET['class_id']);  
+            $return = $C->delete($_GET['class_id']);  
 
         if($return > 0 || $return == 'updated' || $return == 'deleted'){
             header('location:/admin/principal/classes/list');
@@ -61,7 +71,7 @@ if($method=='GET' && $action == 'update' ){
 
 if($method == 'POST' && ($action == 'show' || $action == 'update')){
     $ROWS = $_POST;
-    $CLASS->setData($ROWS);    
+    $C->setData($ROWS);    
 }
 
 require_once("head.php"); ?>
@@ -120,32 +130,32 @@ require_once("head.php"); ?>
 
                                                 <div class="form-group col-md-4">
                                                     <label>Nome da turma</label>
-                                                    <input type="text" class="form-control" <?= $CLASS->valueN("class_name");?>" >
+                                                    <input type="text" class="form-control" <?= $C->valueN("class_name");?>" >
                                                 </div>                            
                                                 <div class="form-group col-md-4">
                                                     <label>Curso vinculado</label>
                                                     <select class="form-control"  name="course_id">
                                                         <option value="">Selecione</option>
                                                         <?php foreach($ROWS_COURSES as $k=>$v){?>
-                                                            <option <?= $CLASS->value_select("course_id",$v["course_id"]);?>><?= $v["course_name"];?></option>
+                                                            <option <?= $C->value_select("course_id",$v["course_id"]);?>><?= $v["course_name"];?></option>
                                                         <?php }?>
                                                     </select>
                                                 </div>
 
                                                 <div class="form-group col-md-2">
                                                     <label>Data início</label>
-                                                    <input type="text" class="form-control" <?= $CLASS->valueN("dt_start","dmy");?>" required>
+                                                    <input type="text" class="form-control" <?= $C->valueN("dt_start","dmy");?>" required>
                                                 </div>                            
                                                 <div class="form-group col-md-2">
                                                     <label>Data fim</label>
-                                                    <input type="text" class="form-control" <?= $CLASS->valueN("dt_end","dmy");?>" required>
+                                                    <input type="text" class="form-control" <?= $C->valueN("dt_end","dmy");?>" required>
                                                 </div>                            
                                                 <div class="form-group col-md-4">
                                                     <label>Cidade</label>
                                                     <select class="form-control"  name="city_id">
                                                         <option value="">Selecione</option>
                                                         <?php foreach($ROWS_CITIES as $k=>$v){?>
-                                                            <option <?= $CLASS->value_select("city_id",$v["city_id"]);?>><?= $v["city_name"];?></option>
+                                                            <option <?= $C->value_select("city_id",$v["city_id"]);?>><?= $v["city_name"];?></option>
                                                         <?php }?>
                                                     </select>
                                                 </div>
@@ -154,17 +164,17 @@ require_once("head.php"); ?>
                                                     <select class="form-control"  name="user_id">
                                                         <option value="">Selecione</option>
                                                         <?php foreach($ROWS_USERS as $k=>$v){?>
-                                                            <option <?= $CLASS->value_select("user_id",$v["user_id"]);?>><?= $v["user_name"];?></option>
+                                                            <option <?= $C->value_select("user_id",$v["user_id"]);?>><?= $v["user_name"];?></option>
                                                         <?php }?>
                                                     </select>
                                                 </div>
                                                 <div class="form-group col-md-2">
                                                     <label>Preço à vista</label>
-                                                    <input type="text" class="form-control" <?= $CLASS->valueN("price_cash","decimal6");?>" >
+                                                    <input type="text" class="form-control" <?= $C->valueN("price_cash","decimal6");?>" >
                                                 </div>                            
                                                 <div class="form-group col-md-2">
                                                     <label>Preço parcelado</label>
-                                                    <input type="text" class="form-control" <?= $CLASS->valueN("price_split","decimal6");?>" >
+                                                    <input type="text" class="form-control" <?= $C->valueN("price_split","decimal6");?>" >
                                                 </div>  
 
                                                 <div class="form-group col-md-12">
@@ -172,7 +182,7 @@ require_once("head.php"); ?>
                                                     <select class="form-control"  name="class_status_id">
                                                         <option value="">Selecione</option>
                                                         <?php foreach($ROWS_STATUS as $k=>$v){?>
-                                                            <option <?= $CLASS->value_select("class_status_id",$v["status_id"]);?>><?= $v["status_name"];?></option>
+                                                            <option <?= $C->value_select("class_status_id",$v["status_id"]);?>><?= $v["status_name"];?></option>
                                                         <?php }?>
                                                     </select>
                                                 </div>
@@ -211,15 +221,15 @@ require_once("head.php"); ?>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <?php if($CLASS->rowCount() == 0){ ?>
+                                                    <?php if($C->rowCount() == 0){ ?>
                                                         <tr>
                                                             <td align="center" colspan="7">Nenhum resultado!</td>
                                                         </tr>
                                                     <?php }else{ foreach($ROWS as $k => $v){?>
                                                         <tr>
-                                                            <td><?= $v['class_name'];?></td>
+                                                            <td><?= $C->sing_pad($v['class_number'],3,'0');?></td>
                                                             <td><?= $v['course_name'];?></td>                         
-                                                            <td><?= $CLASS->toDate($v['dt_start']).'<br>'.$CLASS->toDate($v['dt_end']);?></td>
+                                                            <td><?= $C->toDate($v['dt_start']).'<br>'.$C->toDate($v['dt_end']);?></td>
                                                             <td><?= $v['city_name'];?></td>
                                                             <td><?= $v['status_name'];?></td>
                                                             <td class="text-right">

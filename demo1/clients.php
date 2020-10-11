@@ -231,9 +231,9 @@ require_once("head.php"); ?>
                                                             <td><?= $v['city_name'].'/'.$v['state_abbr'];?></td>        
                                                             <td><?= $v['status_name'];?></td>
                                                             <td class="text-right" nowrap="">
-                                                                <a href="<?= $v['client_id'];?>/update" class="btn btn-sm btn-success btNewImage"><i class="fa fa-edit"></i></a>
-                                                                <a href="/admin/cadastros/prospection/<?= $v['client_id'];?>/list" class="btn btn-sm btn-success btNewImage"><i class="fa fa-edit"></i></a>
-                                                                <button class="btn btn-sm btn-danger" data-row="<? $k;?>" data-column_name="<?= $v["client_name"]; ?>" data-id="<?= $v["client_id"]; ?>" data-toggle="modal" data-target="#modal-confirm-delete" type="button"><i class="fa fa-trash"></i> </button>
+                                                                <a title="Editar" href="<?= $v['client_id'];?>/update" class="btn btn-sm btn-success btNewImage"><i class="fa fa-edit"></i></a>
+                                                                <a title="Prospectar" href="/admin/cadastros/prospection/<?= $v['client_id'];?>/list" class="btn btn-sm btn-primary     btNewImage"><i class="fa fa-th-list"></i></a>
+                                                                <button title="Excluir" class="btn btn-sm btn-danger" data-row="<? $k;?>" data-column_name="<?= $v["client_name"]; ?>" data-id="<?= $v["client_id"]; ?>" data-toggle="modal" data-target="#modal-confirm-delete" type="button"><i class="fa fa-trash"></i> </button>
                                                             </td>
                                                         </tr>
                                                         <?php }}?></tbody>

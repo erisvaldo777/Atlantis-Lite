@@ -15,7 +15,9 @@ RewriteRule ^public/login$ /demo1/login.php?section=$2&path=public&action=create
 RewriteRule ^public/register/create$ /demo1/register.php?path=$1&section=$2&page=&action=create [L]
 RewriteRule ^public/register/waiting$ /demo1/waiting.php?path=$1&section=$2&page=&action=create [L]
 RewriteRule ^admin/danied-access$ /demo1/danied-access.php?path=$1&section=$2&page=&action=create [L]
-RewriteRule ^([a-z,0-9,A-Z,_=]+)/([a-z,0-9,A-Z]+)$ /demo1/$2.php [L]
+RewriteRule ^([a-z,0-9,A-Z,_=]+)/([a-z,0-9,A-Z]+)$ /demo1/$2.php?path=$1 [L]
+
+RewriteRule ^([a-z,0-9,A-Z,_=]+)/print/([a-z,0-9,A-Z]+)/([0-9]+)$ /demo1/print/$2.php?path=$1&class_id=$3 [L]
 
 
 RewriteRule ^([a-z,0-9,A-Z,_=]+)/([a-z,0-9,A-Z,_=]+)/([a-z,0-9,A-Z,-]+)/([a-z,0-9,A-Z]+)$ /demo1/$3.php?location=$2&path=$1&action=$4 [L]
