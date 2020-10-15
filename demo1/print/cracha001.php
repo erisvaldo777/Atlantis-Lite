@@ -120,7 +120,7 @@ if($i == 0){
 	$i = 0;
 }
 			$html .='<td>		
-			<div style="border:#000 solid 2px;  margin:1px;height:2.36in;  width: 100%;max-width:3.54in; ;max-height:2.36in">
+			<div style="border:#000 solid 2px; margin:1px;height:2.36in;  width: 100%;max-width:3.54in; ;max-height:2.36in">
 			<p>&nbsp;</p>
 		
 		<h2 style="text-align:center">NOME DO CLIENTE'.$k.'</h2>
