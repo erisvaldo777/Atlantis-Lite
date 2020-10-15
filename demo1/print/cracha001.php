@@ -128,7 +128,7 @@ $html = '<html>
 		
 		</div>
 		<div>
-		</div>';
+		</div>'; 
 
 		}
 		$html .='</div></body>
