@@ -95,60 +95,63 @@ $html = '<html>
 			<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
 			<title>Untitled Document</title>
 			<style type="text/css">
-			<!--
-#Cfac{color:#003399}
-#Ccert {
-			font-style: italic; color:#003399;
-			font-size: 35px;
-			font-family: "Times New Roman";
-			font-weight: bold;
-
-		}
+			
 
 		
-
-		-->
+body,html{
+	margin:10px;
+	padding:0px;
+	max-width:700px;
+	
+}
+		
 		</style>
 		</head>
 
-		<body><div style="display: flex;        flex-flow: row wrap;">';
-
+		<body><table width="100%">';
+$i = 0;
 		foreach ($array as $k => $args) {
-
-			$html .='
-		<div style=" ">
-			<div style="border:#000 solid 2px; margin:1px;width:3.54in;max-width:3.54in;height:2.36in;max-height:2.36in">
+if($i == 0){
+	$html .='<tr>';
+	
+	$i++;
+}else{
+	$html .='';
+	$i = 0;
+}
+			$html .='<td>		
+			<div style="border:#000 solid 2px;  margin:1px;height:2.36in;  width: 100%;max-width:3.54in; ;max-height:2.36in">
 			<p>&nbsp;</p>
 		
-		<h2 style="text-align:center">NOME DO CLIENTE</h2>
+		<h2 style="text-align:center">NOME DO CLIENTE'.$k.'</h2>
 
 		<p class="MsoNormal" align="right" style="text-align:right; float:left; vertical-align:bottom; bottom:0">Nome do curso
 		</p>
 		</div>
 		
-		</div>
 		<div>
-		</div>'; 
+		</div></td>'; 
 
+
+	
 		}
-		$html .='</div></body>
+		$html .='</tr></table></body>
 		</html>';
 		return $html;
 	}
 }
 
 	$C = new Certificate();
-	echo $C->html($ROWS);
-	/*
+//	echo $C->html($ROWS);
+
 	$dompdf = new Dompdf();
 	$dompdf->loadHtml($C->html($ROWS),'UTF-8');
 
 
-	$dompdf->setPaper('A4', 'landscape');
+	$dompdf->setPaper('A4', 'portrait');
 
 
 	$dompdf->render();
 
 
-	$dompdf->stream();*/
-	?>
+	$dompdf->stream();
