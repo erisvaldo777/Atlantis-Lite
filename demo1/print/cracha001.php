@@ -105,72 +105,41 @@ $html = '<html>
 
 		}
 
-		body {
-			background-image:url(img/bgCert.jpg) ;
-			background-repeat: no-repeat;
-			background-attachment: fixed;
-			background-position: center; 
-			margin-top: 0px;
-			margin-right: 0px;
-			margin-bottom: 0px;
-		}
-#txt{padding:0 60px 0 60px; text-align:justify; font-size:18px;font-family: Times New Roman, Times, serif;}
+		
+
 		-->
 		</style>
 		</head>
 
-		<body>';
+		<body><div style="display: flex;        flex-flow: row wrap;">';
+
 		foreach ($array as $k => $args) {
 
 			$html .='
-		<center ><div><h1 id="Cfac"><br /><br />
-		NOME DA ENTIDADE CERTIFICADORA</h1>
-		<p><span> Autorizada pelo MEC através da portaria nº xxx de xxxxx</span>
-		<br />
+		<div style=" ">
+			<div style="border:#000 solid 2px; margin:1px;width:3.54in;max-width:3.54in;height:2.36in;max-height:2.36in">
+			<p>&nbsp;</p>
+		
+		<h2 style="text-align:center">NOME DO CLIENTE</h2>
+
+		<p class="MsoNormal" align="right" style="text-align:right; float:left; vertical-align:bottom; bottom:0">Nome do curso
 		</p>
-		<p><br />
-		<span id="Ccert">CERTIFICADO</span><br />
-		</p>
-		<p>&nbsp;</p>
-		<div align="justify">
-		<p><div id="txt"><i>
-
-		<b>A [Nome da empresa]</b> certifica que<b> ['.$args['client_name'].']</b>  participou do curso: <b> ['.$args['course_name'].']</b> no na turma ['.$args['class_id'].'], em 20 de Maio de 2020, [perfazendo a carga horária total de<b> 10 horas = se for o caso]</b>.
-
-		</i></div></p>
-
-		<br>
-		<div align="right" style="float:right"><b>['.$args['city_name'].'], 20 de Maio de 2020.</b></div>
 		</div>
-		<p class="MsoNormal" align="right" style="text-align:right"><b style="mso-bidi-font-weight:
-		normal"><span style="font-size:9.0pt;line-height:115%;font-family:"Cambria","serif"">
-
-		</span></b>        <br></p>
-		<table border="0" align="center">
-		<tr>
-		<td width="325" height="35" align="center"></td>
-
-		</tr>
-		<tr>
-		<td width="325" align="center" height="35" valign="top"><b>[Assinatura do instrutor]</b></td>
-
-		</tr>
-		</table>
-		<div align="center"><i>Confira a validade deste certificado em: <span style="color:blue"> www.site.com.br/validaCertificado?hash='.$this->masc('###-###',strtoupper('hash'),0,6).'</span></i></div>
-		<h1></h1></div>
-		<div style="page-break-dbefore: always;"></div>
-		</center>';
+		
+		</div>
+		<div>
+		</div>';
 
 		}
-		$html .='</body>
+		$html .='</div></body>
 		</html>';
 		return $html;
 	}
 }
 
-	
 	$C = new Certificate();
-	
+	echo $C->html($ROWS);
+	/*
 	$dompdf = new Dompdf();
 	$dompdf->loadHtml($C->html($ROWS),'UTF-8');
 
@@ -181,5 +150,5 @@ $html = '<html>
 	$dompdf->render();
 
 
-	$dompdf->stream();
+	$dompdf->stream();*/
 	?>
