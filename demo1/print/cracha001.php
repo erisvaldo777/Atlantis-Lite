@@ -131,8 +131,6 @@ if($i == 0){
 		
 		<div>
 		</div></td>'; 
-
-
 	
 		}
 		$html .='</tr></table></body>
