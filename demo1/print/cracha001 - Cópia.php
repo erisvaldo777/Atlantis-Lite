@@ -111,7 +111,7 @@ body,html{
 		<body><table width="100%" style="border-spacing: 15px;">';
 $i = 0;
 		foreach ($array as $k => $args) {
-$fullName = mb_strtoupper($args['client_name'].' '.' ');
+$fullName = strtoupper($args['client_name'].' '.' ');
 $exp = explode(' ', $fullName);
 
 $name = $exp[0];
@@ -125,7 +125,7 @@ if($i == 0){
 	$html .='';
 	$i = 0;
 }
-			$html .='<td style="" width="320px">		
+			$html .='<td style="">		
 			<div style="border:#000 solid 2px; margin:1px;height:2.36in;  width: 100%;max-width:3.54in; max-height:2.36in">
 			
 		
@@ -135,8 +135,8 @@ if($i == 0){
 		</p>
 		<p class="MsoNormal" align="right" style="text-align:left;  position: relative; vertical-align:bottom; bottom:-0.1in; font-size:12px; margin:10px">'.$fullName.'
 		</p>
-		<img src="http://mazullo.com.br/demo1/print/sst.png" width="100" style="right:-220px;position:relative; bottom:30px;">
 		</div>
+		
 		<div>
 		</div></td>'; 
 	
@@ -148,10 +148,10 @@ if($i == 0){
 }
 
 	$C = new Certificate();
-//	echo $C->html($ROWS);
+	echo $C->html($ROWS);
 	
 
-	$dompdf = new Dompdf();
+	/*$dompdf = new Dompdf();
 	$dompdf->loadHtml($C->html($ROWS),'UTF-8');
 
 
@@ -161,4 +161,4 @@ if($i == 0){
 	$dompdf->render();
 
 
-	$dompdf->stream();
+	$dompdf->stream();*/
