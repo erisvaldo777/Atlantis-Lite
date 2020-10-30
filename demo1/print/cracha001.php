@@ -135,7 +135,7 @@ if($i == 0){
 		</p>
 		<p class="MsoNormal" align="right" style="text-align:left;  position: relative; vertical-align:bottom; bottom:-0.1in; font-size:12px; margin:10px">'.$fullName.'
 		</p>
-		<img src="http://mazullo.com.br/demo1/print/sst.png" width="100" style="right:-220px;position:relative; bottom:30px;">
+		<img src="http://cortex.mazullo.com.br/demo1/print/sst.png" width="100" style="right:-220px;position:relative; bottom:30px;">
 		</div>
 		<div>
 		</div></td>'; 
