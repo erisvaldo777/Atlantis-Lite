@@ -129,7 +129,7 @@ if($i == 0){
 			<div style="border:#000 solid 2px; margin:1px;height:2.36in;  width: 100%;max-width:3.54in; max-height:2.36in">
 			
 		
-		<h2 style="text-align:center;position:relative; font-size:39px">'.$name.' '.$last_name.'</h2>
+		<h2 style="text-align:center;position:relative; font-size:39px">'.$name.'<br>'.$last_name.'</h2>
 
 		<p class="MsoNormal" align="right" style="text-align:left;  position: relative; vertical-align:bottom; bottom:-0.1in; margin:10px">'.$args['course_name'].' - '.$this->sing_pad($args['class_number'],3,'0').'
 		</p>
