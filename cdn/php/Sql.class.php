@@ -15,6 +15,7 @@ class Sql extends singularis{
 	public  $data 		= [];
 	public  $dataType 	= '';
 	public  $rowCount 	= 0;
+	private $READ;
 
 	/*PDO*/
 	public function pdo_create($args)
@@ -74,11 +75,12 @@ class Sql extends singularis{
 
 	public function pdo_full_read($args)
 	{
-		//print_r($args);
 		$l =['A','B','C','D','E','F','G'];
 		$leftJoin = '';
 		$select   = '*';
 		$alias    = 'A';
+		$and  	  = '';
+		$between  = isset($args['between']) > 5 ? $args['between'] : '';
 
 		/*FAZ O TRATAMENTO DAS SELECTS*/
 		if(is_array($args['columns'])){
@@ -117,36 +119,78 @@ class Sql extends singularis{
 			
 		}
 
-		$where     = [];
+		//$where 	   = [];
 		$param     = [];
-		$limit     = isset($args['limit'])?' limit '.$args['limit']:'';
-		$order_by  = isset($args['order_by'])?' ORDER BY '.$args['order_by']:'';
-
+		$limit     = isset($args['limit']) ? ' limit '.$args['limit'] : '';
+		$offset	   = isset($args['offset']) ? ' offset '.$args['offset'] : '';
+		$sqlCalc   = isset($args['sqlCalc']) ? $args['sqlCalc'] : '';
+		$order_by  = isset($args['order_by']) ? ' ORDER BY '.$args['order_by'] : '';
+		$offset	   = $offset == ' offset 20' ? '' : $offset;
 		if(!empty($args['where'])){
-			foreach ($args['where'] as $key => $v) {
+			foreach ($args['where'] as $key => $v) {				
 				$p = str_replace('.', '', $v[0].$key); 
-				$w = strpos($v[0], '.') > 0 ? $v[0].$v[1].':'.$p :  $alias.'.'.$v[0].$v[1].':'.$p;
+				
+				if($v[1] == '%'){
+					$w = "{$v[0]} LIKE :{$p}";
+				}else{					
+					$w = strpos($v[0], '.') > 0 ? $v[0].$v[1].':'.$p :  $alias.'.'.$v[0].$v[1].':'.$p;					
+				}
+				
 				$where[] = $w;
-				$param[] = $p.'='.$v[2];
+				if($v[1] == '%'){
+					$param[] = $p.'=%25'.$v[2].'%25';					
+				}else{
+					$param[] = $p.'='.$v[2];
+				}
+
+				
 			}
 
-			$where = 'WHERE '.implode(' and ',$where);
+			if(!empty($args['where']) && $between != '')
+				$and = ' and ';
+
+			$where = "WHERE {$between}{$and}".implode(' and ',$where);
 			$param = implode('&',$param);
 		}else{
 			$where = '';
 			$param = '';
 		}
-
-		//echo "SELECT {$select} FROM $this->table AS $alias $leftJoin $where $limit $order_by".$param;
-
+		//echo "SELECT {$sqlCalc} {$select} FROM $this->table AS $alias $leftJoin $where $order_by $limit $offset ".$param;
 		$read    = new Read();
-		$read->FullRead("SELECT {$select} FROM $this->table AS $alias $leftJoin $where $limit $order_by",$param);
+		if(isset($args['sqlCalc']))
+			$read->sqlCalc(true);
+
+		$this->READ = $read;
+		$read->FullRead("SELECT {$sqlCalc} {$select} FROM $this->table AS $alias $leftJoin $where $order_by $limit $offset ",$param);
+
+
 		$dado    = $read->getResult();
 		$this->rowCount = $read->getRowCount();
 		if($read->getRowCount()>0)
 			$return = $dado;
 		else
-			$return  = [];		
+			$return  = [];	
+
+		if($this->dataType!='')
+			$dado = json_encode($dado);
+		$this->sql = [];
+		
+		return $dado;
+	}
+	public function pdo_sql_full_read($sql,$param)
+	{
+	//echo $sql.$param;
+		$read    = new Read();
+
+		$read->FullRead($sql,$param);
+
+		$dado    = $read->getResult();
+		$this->rowCount = $read->getRowCount();
+		if($read->getRowCount()>0)
+			$return = $dado;
+		else
+			$return  = [];	
+
 		if($this->dataType!='')
 			$dado = json_encode($dado);
 		$this->sql = [];
@@ -169,6 +213,7 @@ class Sql extends singularis{
 
 			$where = 'where '.implode(' and ',$where);			
 			$param = implode('&',$param);
+
 
 			$update = new Update;
 			$update->ExeUpdate($this->table,$this->data,$where,$param);
@@ -251,15 +296,18 @@ class Sql extends singularis{
 			if($return>=1){
 				$return = 'deleted';
 			}else{
-				$return = 'no-deleted1';            
+				$return = 'no-deleted';            
 			}
 			$this->where = '';
 		}else{
-			$return = 'no-deleted2';
+			$return = 'no-deleted';
 		}
 		return $return;
 	}
-
+	public function found_rows()
+	{
+		return $this->READ->read_found_rows();
+	}
 	public function getData()
 	{
 		return $this->data;
@@ -336,6 +384,10 @@ class Sql extends singularis{
 		$this->type = 'read';
 		return $this;
 	}
+	public function sql_calc() {
+		$this->sql['sqlCalc'] = 'SQL_CALC_FOUND_ROWS'; 
+		return $this;
+	}
 	public function from($table ='') {
 		/*VERSÃO FUTURA VAI ACABAR ESTE METODO E COLOCAR, CASO PRECISE, NO METODO DE CHAMADA: INSERT, DELETE*/
 		$this->table = $table;
@@ -358,7 +410,10 @@ class Sql extends singularis{
 		return $this;
 	}
 
-
+	public function offset($page = 0) {
+		$this->sql['offset'] = $this->sql['limit'] * $page;		
+		return $this;
+	}
 	/*PARA INSERT - SE TORNARÁ OBSOLETO*/
 	public function insert($table = '') {		
 		$this->type = 'create';
@@ -378,6 +433,7 @@ class Sql extends singularis{
 
 		return $this;
 	}
+
 	public function where($column ='',$operator='',$condition='') {
 		if(is_array($column)){
 			foreach ($column as $k => $v) {
@@ -386,6 +442,13 @@ class Sql extends singularis{
 		}else{
 			$this->sql['where'][] = [$column,$operator,$condition];
 		}
+		return $this;
+	}
+
+	public function between($column ='',$dt_start='',$dt_end='') {	
+
+		$this->sql['between'] = " {$column } BETWEEN '{$this->toDate($dt_start)}' AND '{$this->toDate($dt_end)}'";					
+		
 		return $this;
 	}
 

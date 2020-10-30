@@ -161,7 +161,14 @@ echo mask($cpf,'###.###.###-##');
 echo mask($cep,'#####-###');
 echo mask($data,'##/##/####');
 */
-$mask = $mask=='cel'?'(##) # ####-####':$mask;
+
+
+if($mask=='cel' && strlen($val) == 10)
+$mask = '(##) ####-####';
+
+if($mask=='cel' && strlen($val) == 11)
+$mask = '(##) # ####-####';
+
 
 $maskared = '';
 $k = 0;
