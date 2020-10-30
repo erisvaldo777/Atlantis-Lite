@@ -60,7 +60,7 @@ use Dompdf\Dompdf;
 /**
  * 
  */
-class Certificate 
+class Certificate extends Singularis
 {
 	
 
@@ -108,9 +108,15 @@ body,html{
 		</style>
 		</head>
 
-		<body><table width="100%">';
+		<body><table width="100%" style="border-spacing: 15px;">';
 $i = 0;
 		foreach ($array as $k => $args) {
+$fullName = strtoupper($args['client_name']);			
+$exp = explode(' ', $fullName);
+
+$name = $exp[0];
+$last_name = strlen($exp[1]) < 4 ? $exp[2] : $exp[1];
+
 if($i == 0){
 	$html .='<tr>';
 	
@@ -119,13 +125,15 @@ if($i == 0){
 	$html .='';
 	$i = 0;
 }
-			$html .='<td>		
-			<div style="border:#000 solid 2px; margin:1px;height:2.36in;  width: 100%;max-width:3.54in; ;max-height:2.36in">
-			<p>&nbsp;</p>
+			$html .='<td style="">		
+			<div style="border:#000 solid 2px; margin:1px;height:2.36in;  width: 100%;max-width:3.54in; max-height:2.36in">
+			
 		
-		<h2 style="text-align:center">NOME DO CLIENTE'.$k.'</h2>
+		<h2 style="text-align:center;position:relative; font-size:39px">'.$name.' '.$last_name.'</h2>
 
-		<p class="MsoNormal" align="right" style="text-align:right; float:left; vertical-align:bottom; bottom:0">Nome do curso
+		<p class="MsoNormal" align="right" style="text-align:left;  position: relative; vertical-align:bottom; bottom:-0.1in; margin:10px">'.$args['course_name'].' - '.$this->sing_pad($args['class_number'],3,'0').'
+		</p>
+		<p class="MsoNormal" align="right" style="text-align:left;  position: relative; vertical-align:bottom; bottom:-0.1in; font-size:12px; margin:10px">'.$fullName.'
 		</p>
 		</div>
 		
@@ -140,8 +148,9 @@ if($i == 0){
 }
 
 	$C = new Certificate();
-//	echo $C->html($ROWS);
-
+	echo $C->html($ROWS);
+	
+/*
 	$dompdf = new Dompdf();
 	$dompdf->loadHtml($C->html($ROWS),'UTF-8');
 
@@ -152,4 +161,4 @@ if($i == 0){
 	$dompdf->render();
 
 
-	$dompdf->stream();
+	$dompdf->stream();*/
