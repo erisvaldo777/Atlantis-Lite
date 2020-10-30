@@ -131,11 +131,10 @@ if($i == 0){
 		
 		<h2 style="text-align:center;position:relative; font-size:39px">'.$name.'<br>'.$last_name.'</h2>
 
-		<p class="MsoNormal" align="right" style="text-align:left;  position: relative; vertical-align:bottom; bottom:-0.1in; margin:10px">'.$args['course_name'].' - '.$this->sing_pad($args['class_number'],3,'0').'
+		<p class="MsoNormal" align="right" style="text-align:left;  position: relative; vertical-align:bottom; bottom:-0.1in; margin:80px 0px 0 10px">'.$args['course_name'].' - '.$this->sing_pad($args['class_number'],3,'0').'
+		<br>'.$fullName.'
 		</p>
-		<p class="MsoNormal" align="right" style="text-align:left;  position: relative; vertical-align:bottom; bottom:-0.1in; font-size:12px; margin:10px">'.$fullName.'
-		</p>
-		<img src="http://cortex.mazullo.com.br/demo1/print/sst.jpg" width="100" style="right:-220px;position:relative; bottom:30px;">
+		<div style="padding-left:210px;bottom:60px;position:relative;"><img src="http://cortex.mazullo.com.br/demo1/print/sst.jpg" style="margin-bottom:-50px" width="100" ></div>
 		</div>
 		<div>
 		</div></td>'; 
@@ -148,7 +147,7 @@ if($i == 0){
 }
 
 	$C = new Certificate();
-//	echo $C->html($ROWS);
+	//echo $C->html($ROWS);
 	
 
 	$dompdf = new Dompdf(array('enable_remote' => true));
