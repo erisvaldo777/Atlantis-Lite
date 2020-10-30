@@ -148,9 +148,9 @@ if($i == 0){
 }
 
 	$C = new Certificate();
-	echo $C->html($ROWS);
+//	echo $C->html($ROWS);
 	
-/*
+
 	$dompdf = new Dompdf();
 	$dompdf->loadHtml($C->html($ROWS),'UTF-8');
 
@@ -161,4 +161,4 @@ if($i == 0){
 	$dompdf->render();
 
 
-	$dompdf->stream();*/
+	$dompdf->stream();
