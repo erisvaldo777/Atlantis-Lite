@@ -127,7 +127,7 @@ if($i == 0){
 }
 			$html .='<td style="" width="320px">		
 			<div style="border:#000 solid 2px; margin:1px;height:2.36in;  width: 100%;max-width:3.54in; max-height:2.36in">
-			
+			<p></p>
 		
 		<h2 style="text-align:center;position:relative; font-size:39px">'.$name.'<br>'.$last_name.'</h2>
 
@@ -135,7 +135,7 @@ if($i == 0){
 		</p>
 		<p class="MsoNormal" align="right" style="text-align:left;  position: relative; vertical-align:bottom; bottom:-0.1in; font-size:12px; margin:10px">'.$fullName.'
 		</p>
-		<img src="http://cortex.mazullo.com.br/demo1/print/sst.jpg" width="100" style="right:-220px;position:relative; bottom:30px;">
+		<img src="/www/systems/cortex/demo1/print/sst.jpg" width="100" style="right:-220px;position:relative; bottom:30px;">
 		</div>
 		<div>
 		</div></td>'; 
