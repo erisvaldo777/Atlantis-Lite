@@ -127,19 +127,14 @@ if($i == 0){
 }
 			$html .='<td style="" width="320px">		
 			<div style="border:#000 solid 2px; margin:1px;height:2.36in;  width: 100%;max-width:3.54in; max-height:2.36in">
-			
+			<p>&nbsp;</p>
 		
-		<h2 style="position: relative;
-  top:0px;
-  
-  height: 100px;
-  
-  ;text-align:center; font-size:39px">'.$name.'<br>'.$last_name.'</h2>
+		<h2 style="text-align:center;position:relative; font-size:39px">'.$name.'<br>'.$last_name.'</h2>
 
 		<p class="MsoNormal" align="right" style="text-align:left;  position: relative; vertical-align:bottom; bottom:-0.1in; margin:40px 0px 0 10px">'.$args['course_name'].' - '.$this->sing_pad($args['class_number'],3,'0').'
 		<br>'.$fullName.'
 		</p>
-		<div style="height:10px;padding-left:210px;top:-80px;position:relative;"><img src="http://cortex.mazullo.com.br/demo1/print/sst.jpg" style="margin-bottom:-50px" width="100" ></div>
+		<div style="height:10px;padding-left:210px;top:-60px;position:relative;"><img src="http://cortex.mazullo.com.br/demo1/print/sst.jpg" style="margin-bottom:-50px" width="100" ></div>
 		</div>
 		<div>
 		</div></td>'; 
