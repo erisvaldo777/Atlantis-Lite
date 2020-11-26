@@ -13,6 +13,7 @@ class Clients extends Sql{
         $this->data = array_filter($array);
         $this->data['created_by_user_id'] = $this->getUserId(); 
         $this->column('client_name');
+        $this->column('nickname');
         $this->column('email');
         $this->column('cell_phone');
         $this->column('whatsapp_number','toInt');

@@ -112,7 +112,6 @@ body,html{
 $i = 0;
 		foreach ($array as $k => $args) {
 $fullName = mb_strtoupper($args['client_name'].' '.' ');
-$nickname = mb_strtoupper($args['nickname']);
 $exp = explode(' ', $fullName);
 
 $name = $exp[0];
@@ -126,26 +125,18 @@ if($i == 0){
 	$html .='';
 	$i = 0;
 }
-$count = substr_count(trim($nickname),' ');
-
-$font_size = '39px';
-if ($count == 0)
-	$margin = '25px ';
-if ($count == 1){
-	$nickname = str_replace(' ', '<br>', $nickname);
-	$margin = '-10px ';
-}
-if ($count > 1){
-	$margin = '0px ';
-	$font_size = '35px';
-	}
 			$html .='<td style="" width="320px">		
 			<div style="border:#000 solid 2px; margin:1px;height:2.36in;  width: 100%;max-width:3.54in; max-height:2.36in">
 			
 		
-		<h2 style="position: relative;  top:'.$margin.'; height: 100px;text-align:center; font-size:'.$font_size.'">'.$nickname.'</h2>
+		<h2 style="position: relative;
+  top:0px;
+  
+  height: 100px;
+  
+  ;text-align:center; font-size:39px">'.$name.'<br>'.$last_name.'</h2>
 
-		<p class="MsoNormal" align="right" style="text-align:left;position:relative; vertical-align:bottom; bottom:-0.1in; margin:40px 0px 0 10px">'.$args['course_name'].' - '.$this->sing_pad($args['class_number'],3,'0').'
+		<p class="MsoNormal" align="right" style="text-align:left;  position: relative; vertical-align:bottom; bottom:-0.1in; margin:40px 0px 0 10px">'.$args['course_name'].' - '.$this->sing_pad($args['class_number'],3,'0').'
 		<br>'.$fullName.'
 		</p>
 		<div style="height:10px;padding-left:210px;top:-80px;position:relative;"><img src="http://cortex.mazullo.com.br/demo1/print/sst.jpg" style="margin-bottom:-50px" width="100" ></div>

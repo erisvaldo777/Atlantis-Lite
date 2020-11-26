@@ -123,6 +123,10 @@ require_once("head.php"); ?>
                                                     <input type="text" class="form-control" <?= $CLASS->valueN("client_name");?>  required>
                                                 </div>                            
                                                 <div class="form-group col-md-6">
+                                                    <label>Nome crachá</label>
+                                                    <input type="text" class="form-control" <?= $CLASS->valueN("nickname");?> required>
+                                                </div>                            
+                                                <div class="form-group col-md-4">
                                                     <label>Email</label>
                                                     <input type="text" class="form-control" <?= $CLASS->valueN("email");?>>
                                                 </div>                            
@@ -130,7 +134,7 @@ require_once("head.php"); ?>
                                                     <label>Whatsapp</label>
                                                     <input type="text" class="form-control" <?= $CLASS->valueN("whatsapp_number","cel");?>  required>
                                                 </div>                            
-                                                <div class="form-group col-md-8">
+                                                <div class="form-group col-md-4">
                                                     <label>Números de contato</label>
                                                     <input type="text" class="form-control" <?= $CLASS->valueN("cell_phone");?>>
                                                 </div>                            
