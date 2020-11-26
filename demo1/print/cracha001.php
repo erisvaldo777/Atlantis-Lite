@@ -139,16 +139,25 @@ if ($count > 1){
 	$margin = '0px ';
 	$font_size = '35px';
 	}
+$fontFull = '12px';
+if(strlen($args['client_name']) <= 25)
+	$fontFull = '14px';
+if(strlen($args['client_name']) > 25)
+	$fontFull = '12px';
+
+if(strlen($args['client_name']) > 30)
+	$fontFull = '10px';
+
 			$html .='<td style="" width="320px">		
 			<div style="border:#000 solid 2px; margin:1px;height:2.36in;  width: 100%;max-width:3.54in; max-height:2.36in">
-			
-		
-		<h2 style="position: relative;  top:'.$margin.'; height: 100px;text-align:center; font-size:'.$font_size.'">'.$nickname.'</h2>
+			<h2 style="position: relative;  top:'.$margin.'; height: 100px;text-align:center; font-size:'.$font_size.'">'.$nickname.'</h2>
 
 		<p class="MsoNormal" align="right" style="text-align:left;position:relative; vertical-align:bottom; bottom:-0.1in; margin:40px 0px 0 10px">'.$args['course_name'].' - '.$this->sing_pad($args['class_number'],3,'0').'
-		<br>'.$fullName.'
+		<br><span style=" width:250px; font-size:'.$fontFull.'">'.$fullName.'</span>
 		</p>
-		<div style="height:10px;padding-left:210px;top:-80px;position:relative;"><img src="http://cortex.mazullo.com.br/demo1/print/sst.jpg" style="margin-bottom:-50px" width="100" ></div>
+		<div style="height:10px;padding-left:210px;top:-95px;position:relative;">
+		<img src="http://cortex.mazullo.com.br/demo1/print/sst.jpg" style="margin-bottom:-50px" width="100" >
+		</div>
 		</div>
 		<div>
 		</div></td>'; 
